@@ -18,6 +18,7 @@
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
 #include "Core/File.h"
+#include "Renderer/Texture.h"
 
 #include "Game/Player.h"
 #include "Game/SpaceGame.h"
@@ -39,6 +40,10 @@ int main(int argc, char* argv[]) {
     //initialize Text
     //whermst::Text* text = new whermst::Text(font);
     //text->Create(whermst::GetEngine().GetRenderer(), "Hello World", whermst::vec3{1, 1, 1});
+
+    //initialize image
+	std::shared_ptr<whermst::Texture> texture = std::make_shared<whermst::Texture>();
+    texture->Load("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());
 
     SDL_Event e;
     bool quit = false;
@@ -103,13 +108,13 @@ int main(int argc, char* argv[]) {
         }
 
 
-
         //draw
         whermst::vec3 colour(0, 0, 0);
 
 		whermst::GetEngine().GetRenderer().SetColourf(colour.r, colour.g, colour.b); // Set the colour to black
         whermst::GetEngine().GetRenderer().Clear(); // Clear the renderer
         whermst::vec2 position = whermst::GetEngine().GetInput().GetMousePosition();
+        whermst::GetEngine().GetRenderer().DrawTexture(texture.get(), 300, 300);
 
         whermst::GetEngine().GetRenderer().SetColourf(2, 0.3, 1); // Set the colour to white
 

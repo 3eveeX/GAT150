@@ -1,5 +1,7 @@
 #include "Renderer.h"
 #include <iostream>
+#include "../Math/Vector2.h"
+#include "Texture.h"
 
 namespace whermst {
     bool Renderer::Initialize()
@@ -64,6 +66,19 @@ namespace whermst {
     void Renderer::DrawPoint(float x, float y)
     {
         SDL_RenderPoint(_renderer, x, y);
+    }
+
+    void Renderer::DrawTexture(Texture* texture, float x, float y)
+    {
+		vec2 size = texture->GetSize();
+
+		SDL_FRect destRect;
+        destRect.x = x;
+		destRect.y = y;
+        destRect.w = size.x;
+		destRect.h = size.y;
+
+		SDL_RenderTexture(_renderer, texture->_texture, NULL, &destRect);
     }
 
     void Renderer::Clear()

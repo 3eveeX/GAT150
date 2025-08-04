@@ -2,6 +2,9 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3_image/SDL_image.h>
+#include "Texture.h"
+
 
 namespace whermst {
 	class Renderer {
@@ -18,6 +21,7 @@ namespace whermst {
 		void SetColourf(float r, float g, float b, float a = 1.0f);
 		void DrawLine(float x1, float y1, float x2, float y2);
 		void DrawPoint(float x1, float y1);
+		void DrawTexture(Texture* texture, float x, float y);	
 
 		void Clear();
 		void Present();
@@ -32,5 +36,6 @@ namespace whermst {
 		SDL_Renderer* _renderer = nullptr;
 
 		friend class Text;
+		friend class Texture;
 	};
 }
