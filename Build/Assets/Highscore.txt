@@ -1,0 +1,4 @@
+Xadia: 2400
+tasty: 1400
+AAAAAAAAAAAAAA: 1400
+Xadia: 1300

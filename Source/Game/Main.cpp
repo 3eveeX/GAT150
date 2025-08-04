@@ -1,0 +1,129 @@
+#include <iostream>
+#include <vector>
+#include <memory>
+
+#include "Math/Math.h"
+#include "Core/Random.h"
+#include "Renderer/Renderer.h"
+#include "Renderer/Model.h"
+#include "Math/Vector2.h"
+#include "Core/Time.h"
+#include "Framework/Actor.h"
+#include "Input/InputSystem.h"
+#include "Audio/AudioSystem.h"
+#include "Math/Vector3.h"
+#include "Math/Transform.h"
+#include "Framework/Scene.h"
+#include "Engine.h"
+#include "Renderer/Font.h"
+#include "Renderer/Text.h"
+#include "Core/File.h"
+
+#include "Game/Player.h"
+#include "Game/SpaceGame.h"
+
+
+int main(int argc, char* argv[]) {
+
+    //initialize engine 
+	whermst::GetEngine().Initialize();
+    
+    //initialize game
+	std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
+	game->Initialize();
+
+   //initialize font
+	whermst::Font* font = new whermst::Font();
+	font->Load("8bitOperatorPlus8-Regular.ttf", 20);
+
+    //initialize Text
+    //whermst::Text* text = new whermst::Text(font);
+    //text->Create(whermst::GetEngine().GetRenderer(), "Hello World", whermst::vec3{1, 1, 1});
+
+    SDL_Event e;
+    bool quit = false;
+
+    //vec2 v(290, 300);
+
+    whermst::GetEngine().GetAudio().AddSound("test.wav");
+    whermst::GetEngine().GetAudio().AddSound("bass.wav", "bass");
+    whermst::GetEngine().GetAudio().AddSound("clap.wav", "clap");
+    whermst::GetEngine().GetAudio().AddSound("close-hat.wav", "close-hat");
+    whermst::GetEngine().GetAudio().AddSound("cowbell.wav", "cowbell");
+    whermst::GetEngine().GetAudio().AddSound("open-hat.wav", "open-hat");
+    whermst::GetEngine().GetAudio().AddSound("snare.wav", "snare");
+    whermst::GetEngine().GetAudio().AddSound("Laser.mp3", "laser");
+    whermst::GetEngine().GetAudio().AddSound("explode.mp3", "Explode");
+    whermst::GetEngine().GetAudio().AddSound("BGM.mp3", "bgm");
+    whermst::GetEngine().GetAudio().AddSound("enemyHit.mp3", "enemyHit");
+    whermst::GetEngine().GetAudio().AddSound("PlayerDeath.mp3", "playerdeath");
+
+    //std::vector<whermst::vec2> points;
+    //std::vector<std::vector<whermst::vec2>> confirmed;
+    whermst::GetEngine().GetAudio().PlaySound("bgm");
+    std::cout << "Playing BGM test" << std::endl;
+  
+    //MAIN LOOP
+    while (!quit) {
+
+        //update engine
+		whermst::GetEngine().Update();
+		game -> Update(whermst::GetEngine().GetTime().GetDeltaTime());
+        
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_EVENT_QUIT) {
+                quit = true;
+            }
+            whermst::GetEngine().GetInput().HandleEvent(e);
+        }
+        //get input
+       /* if (input.GetKeyDown(SDL_SCANCODE_A)) audio.PlaySound("bass");
+        if (input.GetKeyDown(SDL_SCANCODE_S)) audio.PlaySound("clap");
+        if (input.GetKeyDown(SDL_SCANCODE_D)) audio.PlaySound("close-hat");
+        if (input.GetKeyDown(SDL_SCANCODE_F)) audio.PlaySound("cowbell");
+        if (input.GetKeyDown(SDL_SCANCODE_G)) audio.PlaySound("open-hat");
+        if (input.GetKeyDown(SDL_SCANCODE_H)) audio.PlaySound("snare");*/
+		//if (input.GetKeyDown(SDL_SCANCODE_A)) transform.rotation -= whermst::math::degToRad(45 * time.GetDeltaTime());
+		//if (input.GetKeyDown(SDL_SCANCODE_D)) transform.rotation += whermst::math::degToRad(45 * time.GetDeltaTime());
+        
+        float speed = 200;
+        whermst::vec2 direction{ 0, 0 };
+
+        if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_W)) direction.y = -1; 
+        if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_S)) direction.y = 1;
+        if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_A)) direction.x = -1;
+        if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_D)) direction.x = 1; 
+
+        if (direction.LengthSqr() > 0) { 
+            direction = direction.Normalized();
+            //for (auto& actor : actors) {
+              //  actor -> GetTransform().position += (direction * speed) * time.GetDeltaTime();
+           // }
+        
+        }
+
+
+
+        //draw
+        whermst::vec3 colour(0, 0, 0);
+
+		whermst::GetEngine().GetRenderer().SetColourf(colour.r, colour.g, colour.b); // Set the colour to black
+        whermst::GetEngine().GetRenderer().Clear(); // Clear the renderer
+        whermst::vec2 position = whermst::GetEngine().GetInput().GetMousePosition();
+
+        whermst::GetEngine().GetRenderer().SetColourf(2, 0.3, 1); // Set the colour to white
+
+        //text->Draw(whermst::GetEngine().GetRenderer(), 40.0f, 40.0f);
+		game->Draw(whermst::GetEngine().GetRenderer()); // Draw the game scene
+
+       
+
+       
+        whermst::GetEngine().GetRenderer().Present(); // Render the screen
+    }
+	game->Shutdown(); // Shutdown the game
+	game.release(); // Release the game object
+	whermst::GetEngine().Shutdown(); // Shutdown the engine
+
+    return 0;
+}
