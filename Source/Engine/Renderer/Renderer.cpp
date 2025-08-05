@@ -1,6 +1,6 @@
 #include "Renderer.h"
 #include <iostream>
-#include "../Math/Vector2.h"
+#include "Math/Vector2.h"
 #include "Texture.h"
 
 namespace whermst {

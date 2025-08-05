@@ -1,5 +1,5 @@
 #include "Actor.h"
-#include "../Renderer/Model.h"
+#include "Renderer/Model.h"
 
 namespace whermst{
 

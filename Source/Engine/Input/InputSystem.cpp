@@ -1,6 +1,6 @@
 #include "InputSystem.h"
 #include <SDL3/SDL.h>
-#include "../Renderer/Renderer.h"  
+#include "Renderer/Renderer.h"  
 namespace whermst {
 	bool InputSystem::Initialize() {
 		int numKeys;

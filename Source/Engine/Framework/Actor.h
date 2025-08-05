@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <string>
-#include "../Math/Transform.h"
+#include "Math/Transform.h"
 
 
 namespace whermst {

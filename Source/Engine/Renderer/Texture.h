@@ -1,11 +1,12 @@
 #pragma once
-#include "../Math/Vector2.h"
+#include "Math/Vector2.h"
+#include "Resources/Resource.h"
 #include <string>
 
 
 struct SDL_Texture;
 namespace whermst {
-	class Texture {
+	class Texture : public Resource {
 	public:
 		Texture() = default;
 		~Texture();

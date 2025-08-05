@@ -19,6 +19,7 @@
 #include "Renderer/Text.h"
 #include "Core/File.h"
 #include "Renderer/Texture.h"
+#include "Resources/ResourceManager.h"
 
 #include "Game/Player.h"
 #include "Game/SpaceGame.h"
@@ -28,6 +29,8 @@ int main(int argc, char* argv[]) {
 
     //initialize engine 
 	whermst::GetEngine().Initialize();
+
+	
     
     //initialize game
 	std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
@@ -42,8 +45,9 @@ int main(int argc, char* argv[]) {
     //text->Create(whermst::GetEngine().GetRenderer(), "Hello World", whermst::vec3{1, 1, 1});
 
     //initialize image
-	std::shared_ptr<whermst::Texture> texture = std::make_shared<whermst::Texture>();
-    texture->Load("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());
+	/*std::shared_ptr<whermst::Texture> texture = std::make_shared<whermst::Texture>();
+    texture->Load("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());*/
+	auto texture = whermst::ResourceManager::Instance().Get<whermst::Texture>("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());
 
     SDL_Event e;
     bool quit = false;
@@ -62,6 +66,7 @@ int main(int argc, char* argv[]) {
     whermst::GetEngine().GetAudio().AddSound("BGM.mp3", "bgm");
     whermst::GetEngine().GetAudio().AddSound("enemyHit.mp3", "enemyHit");
     whermst::GetEngine().GetAudio().AddSound("PlayerDeath.mp3", "playerdeath");
+
 
     //std::vector<whermst::vec2> points;
     //std::vector<std::vector<whermst::vec2>> confirmed;

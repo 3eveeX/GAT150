@@ -1,7 +1,7 @@
 #pragma once
 #include "Renderer.h"
 #include "Font.h"
-#include "../Math/Vector3.h"
+#include "Math/Vector3.h"
 #include <string>
 #include <memory>
 

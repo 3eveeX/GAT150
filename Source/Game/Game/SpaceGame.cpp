@@ -11,6 +11,7 @@
 #include "Renderer/Font.h"
 #include "Core/File.h"
 #include "Renderer/ParticleSystem.h"
+#include "Resources/ResourceManager.h"
 
 
 
@@ -21,6 +22,11 @@ bool SpaceGame::Initialize()
 	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
 	whermst::file::SetCurrentDirectory("Assets");
 	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
+    _titleText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Bold.ttf", 128.0f));
+    _scoreText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Regular.ttf", 48.0f));
+    _livesText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Regular.ttf", 48.0f));
+    _scoreboardText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Regular.ttf", 48.0f));
+    _nameText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Bold.ttf", 128.0f));
 	whermst::GetEngine().GetAudio().PlaySound("bgm");
 	_bgmTimer = 190;
     return true;
@@ -37,18 +43,9 @@ void SpaceGame::Update(float dt)
     switch (_gameState)
     {
     case SpaceGame::GameState::Initialize:
-        _titleFont = std::make_shared<whermst::Font>();
-		_titleFont->Load("8bitOperatorPlus8-Regular.ttf", 128);
 
-        _uiFont = std::make_shared<whermst::Font>();
-		_uiFont->Load("8bitOperatorPlus8-Regular.ttf", 128);
+       
 
-        _titleText = std::make_unique<whermst::Text>(_titleFont);
-        _scoreText = std::make_unique<whermst::Text>(_uiFont);
-        _livesText = std::make_unique<whermst::Text>(_uiFont);
-        _scoreboardText = std::make_unique<whermst::Text>(_uiFont);
-        _nameText = std::make_unique<whermst::Text>(_uiFont);
-        
 		_gameState = SpaceGame::GameState::Title;
         break;
     case SpaceGame::GameState::Title:
@@ -175,8 +172,8 @@ void SpaceGame::Draw(whermst::Renderer& renderer)
         _titleText->Create(renderer, "[[SPACE]] to start", whermst::vec3{ 1, 1, 1 });  
         _titleText->Draw(renderer, 200, 330);  
 
-		_titleText->Create(renderer, "Top 3 High Scores", whermst::vec3{ 1, 1, 1 });
-		_titleText->Draw(renderer, renderer.GetWidth() / 5 - 200, renderer.GetHeight()/1.5f - 110, 1.5f);
+		_scoreText->Create(renderer, "Top 3 High Scores", whermst::vec3{ 1, 1, 1 });
+		_scoreText->Draw(renderer, renderer.GetWidth() / 5 - 200, renderer.GetHeight()/1.5f - 110, 1.5f);
         if (whermst::file::Exists("Highscore.txt")) {
             std::ifstream file("Highscore.txt");
             if (file.is_open()) { // Ensure the file is successfully opened

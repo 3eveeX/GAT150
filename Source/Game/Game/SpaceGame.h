@@ -37,9 +37,6 @@ private:
 	float _bgmTimer{ 0 };
 	std::string _playerName = "";
 
-	std::shared_ptr<whermst::Font> _titleFont;
-	std::shared_ptr<whermst::Font> _uiFont;
-
 	std::unique_ptr<whermst::Text> _titleText;
 	std::unique_ptr<whermst::Text> _scoreText;
 	std::unique_ptr<whermst::Text> _livesText;
