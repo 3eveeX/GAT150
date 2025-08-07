@@ -1,50 +1,56 @@
 #pragma once	 
 #include "Core/StringHelper.h"
+#include "Core/Singleton.h"
 #include "Resource.h"
 #include <string>
 #include <map>
 #include <iostream>
 
 namespace whermst{
-	class ResourceManager {
+	class ResourceManager : public Singleton<ResourceManager> {
 	public:
-		template <typename T, typename... TArgs>
-		res_t<T> Get(const std::string& name, TArgs&& ... args);
+		template <typename T, typename... Args>
+		res_t<T> Get(const std::string& name, Args&& ... args);
 
-		static ResourceManager& Instance()
-		{
-			static ResourceManager instance;
-			return instance;
-		}
+		template <typename T, typename... Args>
+		res_t<T> GetWithID(const std::string& id, const std::string& name, Args&& ... args);
+	
 
 
 	private:
+		friend class Singleton<ResourceManager>;
 		std::map<std::string, res_t<Resource>> _resources;
 	private:
 		ResourceManager() = default;
 	};
 
-	template <typename T, typename... TArgs>
-	inline res_t<T> ResourceManager::Get(const std::string& name, TArgs&& ... args)
+	template <typename T, typename... Args>
+	inline res_t<T> ResourceManager::Get(const std::string& name, Args&& ... args)
 	{
-		std::string key = tolower(name);
+		return GetWithID<T>(name, name, std::forward<Args>(args)...);
+	}
+
+	template<typename T, typename ...Args>
+	inline res_t<T> ResourceManager::GetWithID(const std::string& id, const std::string& name, Args && ...args)
+	{
+		std::string key = tolower(id);
 
 		auto iter = _resources.find(key);
 		if (iter != _resources.end())
 		{
 			auto base = iter->second;
-			auto resource = std::dynamic_pointer_cast<T>(base); 
+			auto resource = std::dynamic_pointer_cast<T>(base);
 			if (resource == nullptr)
 			{
-				std::cerr << "Resource type mismatch: " << key << " is not of type " << typeid(T).name() << std::endl;
+				Logger::Error("Resource type mismatch: {} is not of type {}", key, typeid(T).name());
 				return res_t<T>();
 			}
 			return resource;
 		}
 
 		res_t<T> resource = std::make_shared<T>();
-		if (resource->Load(key, std::forward<TArgs>(args)...) == false) {
-			std::cerr << "Failed to load resource: " << key << std::endl;
+		if (resource->Load(name, std::forward<Args>(args)...) == false) {
+			Logger::Error("Failed to load resource: {}", name);
 			return res_t<T>();
 		}
 
@@ -53,5 +59,8 @@ namespace whermst{
 		return resource;
 	}
 
-	
+	inline ResourceManager& Resources()
+	{
+		return ResourceManager::Instance();
+	}
 }

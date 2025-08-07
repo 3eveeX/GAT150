@@ -37,7 +37,7 @@ void Enemy::Update(float dt)
 		fireTimer = fireTime;
 		std::shared_ptr<whermst::Model> model = std::make_shared<whermst::Model>(GameData::projectilePoints, whermst::vec3{ 1.0f, 1.0f, 0.0f });
 		whermst::Transform transform{ this->transform.position, this->transform.rotation, 2.0f };
-		auto projectile = std::make_unique<Projectile>(transform, model);
+		auto projectile = std::make_unique<Projectile>(transform, whermst::Resources().Get<whermst::Texture>("player", whermst::GetEngine().GetRenderer()));
 		projectile->speed = 250.0f;
 		projectile->lifespan = 1.5f;
 		projectile->name = "Projectile";
@@ -63,12 +63,12 @@ void Enemy::OnCollision(Actor* other)
 
 		
 		if (hitPoints == 2) {
-			_model->SetColour(whermst::vec3{ 0.7f, 0.6f, 0.1f });
+			_texture->Load("enemy2.png", whermst::GetEngine().GetRenderer());
 			fireTime = 2.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 50.0f;
 		}
-		else if (hitPoints == 1) { 
-			_model->SetColour(whermst::vec3{ 0.7f, 0.0f, 0.0f }); 
+		else if (hitPoints == 1) {
+			_texture->Load("enemy1.png", whermst::GetEngine().GetRenderer());
 			fireTime = 4.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
 		}

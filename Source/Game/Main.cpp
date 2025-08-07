@@ -47,25 +47,25 @@ int main(int argc, char* argv[]) {
     //initialize image
 	/*std::shared_ptr<whermst::Texture> texture = std::make_shared<whermst::Texture>();
     texture->Load("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());*/
-	auto texture = whermst::ResourceManager::Instance().Get<whermst::Texture>("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());
+	auto texture = whermst::Resources().Get<whermst::Texture>("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());
 
     SDL_Event e;
     bool quit = false;
 
     //vec2 v(290, 300);
 
-    whermst::GetEngine().GetAudio().AddSound("test.wav");
-    whermst::GetEngine().GetAudio().AddSound("bass.wav", "bass");
-    whermst::GetEngine().GetAudio().AddSound("clap.wav", "clap");
-    whermst::GetEngine().GetAudio().AddSound("close-hat.wav", "close-hat");
-    whermst::GetEngine().GetAudio().AddSound("cowbell.wav", "cowbell");
-    whermst::GetEngine().GetAudio().AddSound("open-hat.wav", "open-hat");
-    whermst::GetEngine().GetAudio().AddSound("snare.wav", "snare");
-    whermst::GetEngine().GetAudio().AddSound("Laser.mp3", "laser");
-    whermst::GetEngine().GetAudio().AddSound("explode.mp3", "Explode");
-    whermst::GetEngine().GetAudio().AddSound("BGM.mp3", "bgm");
-    whermst::GetEngine().GetAudio().AddSound("enemyHit.mp3", "enemyHit");
-    whermst::GetEngine().GetAudio().AddSound("PlayerDeath.mp3", "playerdeath");
+    whermst::GetEngine().GetAudio().Load("test.wav");
+    whermst::GetEngine().GetAudio().Load("bass.wav", "bass");
+    whermst::GetEngine().GetAudio().Load("clap.wav", "clap");
+    whermst::GetEngine().GetAudio().Load("close-hat.wav", "close-hat");
+    whermst::GetEngine().GetAudio().Load("cowbell.wav", "cowbell");
+    whermst::GetEngine().GetAudio().Load("open-hat.wav", "open-hat");
+    whermst::GetEngine().GetAudio().Load("snare.wav", "snare");
+    whermst::GetEngine().GetAudio().Load("Laser.mp3", "laser");
+    whermst::GetEngine().GetAudio().Load("explode.mp3", "Explode");
+    whermst::GetEngine().GetAudio().Load("BGM.mp3", "bgm");
+    whermst::GetEngine().GetAudio().Load("enemyHit.mp3", "enemyHit");
+    whermst::GetEngine().GetAudio().Load("PlayerDeath.mp3", "playerdeath");
 
 
     //std::vector<whermst::vec2> points;
@@ -119,9 +119,9 @@ int main(int argc, char* argv[]) {
 		whermst::GetEngine().GetRenderer().SetColourf(colour.r, colour.g, colour.b); // Set the colour to black
         whermst::GetEngine().GetRenderer().Clear(); // Clear the renderer
         whermst::vec2 position = whermst::GetEngine().GetInput().GetMousePosition();
-        whermst::GetEngine().GetRenderer().DrawTexture(texture.get(), 300, 300);
+        whermst::GetEngine().GetRenderer().DrawTexture(texture.get(), 300, 300, 90, 0.5f);
 
-        whermst::GetEngine().GetRenderer().SetColourf(2, 0.3, 1); // Set the colour to white
+        whermst::GetEngine().GetRenderer().SetColourf(2, 0.3f, 1); // Set the colour to white
 
         //text->Draw(whermst::GetEngine().GetRenderer(), 40.0f, 40.0f);
 		game->Draw(whermst::GetEngine().GetRenderer()); // Draw the game scene

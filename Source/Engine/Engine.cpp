@@ -6,11 +6,7 @@
 
 namespace whermst
 {
-	Engine& GetEngine()
-	{
-		static Engine engine;
-		return engine;
-	}
+	
 	bool Engine::Initialize()
 	{
 		_renderer = std::make_unique<whermst::Renderer>();

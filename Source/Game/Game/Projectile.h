@@ -7,8 +7,8 @@ public:
 	float speed = 200;
 public:
 	Projectile() = default;
-	Projectile(const whermst::Transform& transform, std::shared_ptr<class whermst::Model> model) :
-		Actor{ transform, model }
+	Projectile(const whermst::Transform& transform, whermst::res_t<whermst::Texture> texture) :
+		Actor{ transform, texture }
 	{
 	}
 

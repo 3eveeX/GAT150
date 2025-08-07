@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include "Math/Transform.h"
+#include "Renderer/Texture.h"
 
 
 namespace whermst {
@@ -17,9 +18,9 @@ namespace whermst {
 		class Scene* _scene{ nullptr };
 	public:
 		Actor() = default;
-		Actor(const Transform& transform, std::shared_ptr<class Model> model) :
+		Actor(const Transform& transform, std::shared_ptr<class Texture> texture) :
 			transform{ transform },
-			_model{ model }
+			_texture{ texture }
 		{}
 
 		virtual void Update(float dt);
@@ -31,7 +32,8 @@ namespace whermst {
 
 
 	protected:
-		std::shared_ptr<class Model> _model;
+		res_t<Texture> _texture{ nullptr };
+		//std::shared_ptr<class Model> _model;
 		
 
 	};

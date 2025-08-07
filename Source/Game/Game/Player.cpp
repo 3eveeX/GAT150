@@ -45,10 +45,9 @@ void Player::Update(float dt)
      fireTimer -= dt;
      if (fireTimer <= 0.0f && whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_SPACE)) {
 		 whermst::GetEngine().GetAudio().PlaySound("laser");
-		 fireTimer = fireTime;
-         std::shared_ptr<whermst::Model> model = std::make_shared<whermst::Model>(GameData::projectilePoints, whermst::vec3{ 1.0f, 0.9f, 0.0f });
+         fireTimer = fireTime;
          whermst::Transform transform{this -> transform.position, this -> transform.rotation, 2.0f};
-         auto projectile = std::make_unique<Projectile>(transform, model);
+         auto projectile = std::make_unique<Projectile>(transform, whermst::Resources().Get<whermst::Texture>("player", whermst::GetEngine().GetRenderer()));
          projectile->speed = 1000.0f;
          projectile->lifespan = 1.5f;
          projectile->name = "Projectile";

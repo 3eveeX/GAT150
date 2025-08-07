@@ -1,4 +1,5 @@
 #include "Text.h"
+#include "Core/Logger.h"
 
 
 namespace whermst {
@@ -24,13 +25,13 @@ namespace whermst {
 		SDL_Color c{ (uint8_t)(color.r * 255), (uint8_t)(color.g * 255), (uint8_t)(color.b * 255), 255 };
 		SDL_Surface* surface = TTF_RenderText_Solid(_font->_ttfFont, text.c_str(), text.size(), c);
 		if (surface == nullptr) {
-			std::cerr << "Could not create surface.\n";
+			Logger::Error("Could not create surface");
 			return false;
 		}
 		_texture = SDL_CreateTextureFromSurface(renderer._renderer, surface);
 		if (_texture == nullptr) {
 			SDL_DestroySurface(surface);
-			std::cerr << "Could not create texture" << SDL_GetError() << std::endl;
+			Logger::Error("Could not create texture: {}", SDL_GetError());
 			return false;
 		}
 

@@ -1,22 +1,24 @@
 #pragma once
 #include <memory>
 #include "Core/Time.h"
+#include "Core/Singleton.h"
 #include "Renderer/Renderer.h"
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
+#include "Resources/ResourceManager.h"
 
 namespace whermst
 {
 	class ParticleSystem;
 
-	class Engine {
+	class Engine : public Singleton<Engine>{
 		public:
-		Engine() = default;
+		
 		
 		bool Initialize();
 		void Update();
 		void Shutdown();
-		void Draw();
+		//void Draw();
 
 		Renderer& GetRenderer(){ return *_renderer;}
 		InputSystem& GetInput(){ return *_input;}
@@ -25,7 +27,10 @@ namespace whermst
 
 		Time& GetTime(){return _time;}
 
-		
+	
+	private:
+		friend class Singleton<Engine>;
+		Engine() = default;
 	private:
 		Time _time;
 
@@ -34,5 +39,5 @@ namespace whermst
 		std::unique_ptr<class AudioSystem> _audio;
 		std::unique_ptr<class ParticleSystem> _particle;
 	};
-	Engine& GetEngine();
+	inline Engine& GetEngine() { return Engine::Instance(); }
 }

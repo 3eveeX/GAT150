@@ -1,5 +1,6 @@
 #include "AudioSystem.h"
 #include "Core/StringHelper.h"
+#include "Core/Logger.h"
 #include <fmod_errors.h>
 #include <iostream>
 
@@ -11,7 +12,7 @@ namespace whermst {
 	/// <returns></returns>
 	bool AudioSystem::CheckFmodResult(FMOD_RESULT result) {
 		if (result != FMOD_OK) {
-			std::cerr << FMOD_ErrorString(result) << std::endl;
+			Logger::Error("{}", FMOD_ErrorString(result));
 			return false;
 		}
 
@@ -42,7 +43,7 @@ namespace whermst {
 
 		//check if key exists in sounds
 		if (_sounds.find(key) != _sounds.end()) {
-			std::cerr << "Audio System : " << key << " already exists" << std::endl;
+			Logger::Error("Audio system {} already exists", key);
 			return false;
 		}
 
@@ -64,7 +65,7 @@ namespace whermst {
 		//check if sound exists in sounds map
 
 		if (_sounds.find(name) == _sounds.end()) {
-			std::cerr << "Audio System : " << key << " doesn't exist" << std::endl;
+			Logger::Error("Audio system {} doesn't exist", key);
 			return false;
 		}
 

@@ -2,16 +2,17 @@
 #include <iostream>
 #include "Math/Vector2.h"
 #include "Texture.h"
+#include "Core/Logger.h"
 
 namespace whermst {
     bool Renderer::Initialize()
     {
         if (!SDL_Init(SDL_INIT_VIDEO)) {
-            std::cerr << "SDL_Init Error" << SDL_GetError() << std::endl;
+            Logger::Error("SDL_Init Error: {}", SDL_GetError());
             return false;
         }
         if (!TTF_Init()) {
-            std::cerr << "TTF_Init Error: " << SDL_GetError() << std::endl;
+            Logger::Error("TTF_Init Error: {}", SDL_GetError());
             return false;
         }
 
@@ -33,14 +34,14 @@ namespace whermst {
 
         _window = SDL_CreateWindow(name.c_str(), width, height, 0);
         if (_window == nullptr) {
-            std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+            Logger::Error("Create Window Error: {}", SDL_GetError());
             SDL_Quit();
             return false;
         }
 
         _renderer = SDL_CreateRenderer(_window, NULL);
         if (_renderer == nullptr) {
-            std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
+            Logger::Error("Create Renderer Error: {}", SDL_GetError());
             SDL_DestroyWindow(_window);
             SDL_Quit();
             return false;
@@ -79,6 +80,17 @@ namespace whermst {
 		destRect.h = size.y;
 
 		SDL_RenderTexture(_renderer, texture->_texture, NULL, &destRect);
+    }
+
+    void Renderer::DrawTexture(Texture* texture, float x, float y, float angle, float scale)
+    {
+        vec2 size = texture->GetSize();
+        SDL_FRect destRect;
+        destRect.w = size.x * scale;
+        destRect.h = size.y * scale;
+        destRect.x = x - (destRect.w * 0.5f);
+        destRect.y = y - (destRect.h * 0.5f);
+		SDL_RenderTextureRotated(_renderer, texture->_texture, NULL, &destRect, angle, NULL, SDL_FLIP_NONE);
     }
 
     void Renderer::Clear()

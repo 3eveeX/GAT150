@@ -1,4 +1,5 @@
 #include "Font.h"
+#include "Core/Logger.h"
 #include <iostream>
 
 namespace whermst {
@@ -22,7 +23,7 @@ namespace whermst {
 	{
 		_ttfFont = TTF_OpenFont(name.c_str(), fontSize);
 		if (_ttfFont == nullptr) {
-			std::cerr << "Could not load font: " << name << std::endl;
+			Logger::Error("Could not load font: {}", name);
 			return false;
 		}
 

@@ -1,5 +1,5 @@
 #include "Actor.h"
-#include "Renderer/Model.h"
+#include "Renderer/Renderer.h"
 
 namespace whermst{
 
@@ -21,10 +21,15 @@ namespace whermst{
 	void Actor::Draw(Renderer& renderer)
 	{
 		if (destroyed) return;
-		_model->Draw(renderer, transform);
+		renderer.DrawTexture(_texture.get(), transform.position.x, transform.position.y, transform.rotation, transform.scale);
 	}
+
+	/// <summary>
+	/// Returns the effective radius of the actor based on its texture size, scale, and a scaling factor.
+	/// </summary>
+	/// <returns>The computed radius of the actor. Returns 0 if the actor has no texture.</returns>
 	float Actor::GetRadius()
 	{
-		return (_model) ? _model->GetRadius() * transform.scale * 0.8f : 0;
+		return (_texture) ? (_texture->GetSize().Length() * 0.5f) * transform.scale * 0.8f : 0;
 	}
 }

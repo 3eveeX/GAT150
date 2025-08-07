@@ -12,6 +12,7 @@
 #include "Core/File.h"
 #include "Renderer/ParticleSystem.h"
 #include "Resources/ResourceManager.h"
+#include "Core/Logger.h"
 
 
 
@@ -22,11 +23,11 @@ bool SpaceGame::Initialize()
 	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
 	whermst::file::SetCurrentDirectory("Assets");
 	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
-    _titleText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Bold.ttf", 128.0f));
-    _scoreText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Regular.ttf", 48.0f));
-    _livesText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Regular.ttf", 48.0f));
-    _scoreboardText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Regular.ttf", 48.0f));
-    _nameText = std::make_unique<whermst::Text>(whermst::Resources().Get<whermst::Font>("8bitOperatorPlus8-Bold.ttf", 128.0f));
+    _titleText = std::make_unique<whermst::Text>(whermst::Resources().GetWithID<whermst::Font>("titlefont", "8bitOperatorPlus8-Regular.ttf", 128.0f));
+    _scoreText = std::make_unique<whermst::Text>(whermst::Resources().GetWithID<whermst::Font>("uifont", "8bitOperatorPlus8-Regular.ttf", 48.0f));
+    _livesText = std::make_unique<whermst::Text>(whermst::Resources().GetWithID<whermst::Font>("uifont", "8bitOperatorPlus8-Regular.ttf", 48.0f));
+    _scoreboardText = std::make_unique<whermst::Text>(whermst::Resources().GetWithID<whermst::Font>("uifont", "8bitOperatorPlus8-Regular.ttf", 48.0f));
+    _nameText = std::make_unique<whermst::Text>(whermst::Resources().GetWithID<whermst::Font>("titlefont", "8bitOperatorPlus8-Regular.ttf", 128.0f));
 	whermst::GetEngine().GetAudio().PlaySound("bgm");
 	_bgmTimer = 190;
     return true;
@@ -62,9 +63,8 @@ void SpaceGame::Update(float dt)
     case SpaceGame::GameState::StartRound:
     {
         _scene->RemoveAllActors();
-        std::shared_ptr<whermst::Model> model = std::make_shared<whermst::Model>(GameData::shipPoints, whermst::vec3{ 1.0f, 1.0f, 1.0f });
         whermst::Transform transform{ whermst::vec2{whermst::GetEngine().GetRenderer().GetWidth() * 0.5f, whermst::GetEngine().GetRenderer().GetHeight() * 0.5f}, 0, 5 };
-        auto player = std::make_unique<Player>(transform, model);
+        auto player = std::make_unique<Player>(transform, whermst::Resources().Get<whermst::Texture>("player", whermst::GetEngine().GetRenderer()));
         player->speed = 500.0f;
         player->rotateRate = 180.0f;
         player->damping = .9f;
@@ -88,7 +88,7 @@ void SpaceGame::Update(float dt)
 
                 std::shared_ptr<whermst::Model> enemyModel = std::make_shared<whermst::Model>(GameData::enemyPoints);
                 whermst::Transform transform{ position, whermst::random::getReal(0.0f, 360.0f), 5 };
-                std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, enemyModel);
+                std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, whermst::Resources().Get<whermst::Texture>("player", whermst::GetEngine().GetRenderer()));
                 enemy->hitPoints = whermst::random::getInt(1, 3); // Random hit points between 1 and 3
                 if (enemy->hitPoints == 3) { 
                     enemyModel->SetColour(whermst::vec3{ 0.4f, 0.5f, 0.0f }); 
@@ -173,7 +173,7 @@ void SpaceGame::Draw(whermst::Renderer& renderer)
         _titleText->Draw(renderer, 200, 330);  
 
 		_scoreText->Create(renderer, "Top 3 High Scores", whermst::vec3{ 1, 1, 1 });
-		_scoreText->Draw(renderer, renderer.GetWidth() / 5 - 200, renderer.GetHeight()/1.5f - 110, 1.5f);
+		_scoreText->Draw(renderer, renderer.GetWidth() / 5.0f - 200, renderer.GetHeight()/1.5f - 110, 1.5f);
         if (whermst::file::Exists("Highscore.txt")) {
             std::ifstream file("Highscore.txt");
             if (file.is_open()) { // Ensure the file is successfully opened
@@ -183,11 +183,11 @@ void SpaceGame::Draw(whermst::Renderer& renderer)
                 while (std::getline(file, line)) {
                     _scoreboardText->Create(renderer, line, whermst::vec3{ 1, 1, 1 });
                     
-                    _scoreboardText->Draw(renderer, renderer.GetWidth()/2 - 300, y, 0.5f);
+                    _scoreboardText->Draw(renderer, renderer.GetWidth()/2.0f - 300, y, 0.5f);
                     y += 110; // Move down for next line
                 }
             } else {
-                std::cerr << "Failed to open Highscore.txt" << std::endl;
+                Logger::Error("Could not retrieve scoreboard.");
             }
         }
     }
@@ -206,7 +206,7 @@ void SpaceGame::Draw(whermst::Renderer& renderer)
         _scoreText->Draw(renderer, 20, 20);
 
         _livesText->Create(renderer, "Lives: " + std::to_string(_lives), whermst::vec3{1, 1, 1});
-        _livesText->Draw(renderer, renderer.GetWidth() - 700, 20);
+        _livesText->Draw(renderer, renderer.GetWidth() - 700.0f, 20);
     }
     whermst::GetEngine().GetPT().Draw(renderer);
     _scene -> Draw(renderer);

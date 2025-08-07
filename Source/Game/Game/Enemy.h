@@ -9,8 +9,8 @@ public:
 	int hitPoints = 1; // Number of hits before destruction
 public:
 	Enemy() = default;
-	Enemy(const whermst::Transform& transform, std::shared_ptr<class whermst::Model> model) :
-		Actor{ transform, model }
+	Enemy(const whermst::Transform& transform, whermst::res_t<whermst::Texture> texture) :
+		Actor{ transform, texture }
 	{
 	}
 

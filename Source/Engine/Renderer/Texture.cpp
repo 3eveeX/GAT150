@@ -1,5 +1,6 @@
 #include "Texture.h"  
-#include "Renderer.h"  
+#include "Renderer.h"
+#include "Core/Logger.h"
 #include <SDL3/SDL.h>  
 #include <SDL3_image/SDL_image.h>  
 
@@ -17,7 +18,7 @@ namespace whermst
         SDL_Surface* surface = IMG_Load(fileName.c_str());  
         if (surface == nullptr)  
         {  
-            std::cerr << "Could not load image: " << fileName << std::endl;  
+            Logger::Error("Could not load image: {}", fileName);
             return false;  
         }  
 
@@ -27,7 +28,7 @@ namespace whermst
         SDL_DestroySurface(surface);  
         if (_texture == nullptr)  
         {  
-            std::cerr << "Could not create texture: " << fileName << std::endl;  
+            Logger::Error("Could not create texture: {}", fileName);
             return false;  
         }  
 

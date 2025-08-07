@@ -1,10 +1,11 @@
 #pragma once
+#include "Resources/Resource.h"
 #include <fmod.hpp>
 #include <string>
 #include <map>
 
 namespace whermst {
-	class AudioSystem {
+	class AudioSystem : public Resource {
 	public:
 		AudioSystem() = default;
 
@@ -13,7 +14,7 @@ namespace whermst {
 
 		void Update();
 
-		bool AddSound(const std::string& filename, const std::string& name = "filename");
+		bool Load(const std::string& filename, const std::string& name = "filename");
 
 		bool PlaySound(const std::string& name/*, const int volume*/);
 
