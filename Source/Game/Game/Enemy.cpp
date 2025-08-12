@@ -58,6 +58,7 @@ void Enemy::Update(float dt)
 void Enemy::OnCollision(Actor* other)
 {
 	if (whermst::tolower(other->tag) != whermst::tolower(tag)) {
+		RemoveComponent(GetComponent<whermst::SpriteRenderer>());
 		auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
 		if (hitPoints > 0) {
 			whermst::GetEngine().GetAudio().PlaySound("enemyHit");
@@ -74,11 +75,13 @@ void Enemy::OnCollision(Actor* other)
 			spriteRenderer->textureName = "enemy-2life.png";
 			fireTime = 2.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 50.0f;
+			AddComponent(std::move(spriteRenderer));
 		}
 		else if (hitPoints == 1) {
 			spriteRenderer->textureName = "enemy-1life.png";
 			fireTime = 4.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
+			AddComponent(std::move(spriteRenderer));
 		}
 
 

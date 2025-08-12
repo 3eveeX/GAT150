@@ -31,6 +31,10 @@ namespace whermst {
 		
 
 		void AddComponent(std::unique_ptr<Component> component);
+		void RemoveComponent(Component* component) {
+			_components.erase(std::remove_if(_components.begin(), _components.end(),
+				[component](const std::unique_ptr<Component>& c) { return c.get() == component; }), _components.end());
+		}
 
 		template<typename T>
 		T* GetComponent();

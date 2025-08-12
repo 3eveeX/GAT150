@@ -1,5 +1,4 @@
+Alya: 3800
 Xadia: 2400
 Dia: 1900
 Dia: 1900
-tasty: 1400
-AAAAAAAAAAAAAA: 1400

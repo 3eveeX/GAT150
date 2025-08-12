@@ -95,19 +95,19 @@ void SpaceGame::Update(float dt)
                 enemy->hitPoints = whermst::random::getInt(1, 3); // Random hit points between 1 and 3
                 if (enemy->hitPoints == 3) { 
                     spriteRenderer->textureName = "enemy-3life.png";
-                    enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-3life.png", whermst::GetEngine().GetRenderer());
+                    //enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-3life.png", whermst::GetEngine().GetRenderer());
                     enemy->fireTime = 1.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 100.0f;
                 }
                 else if (enemy->hitPoints == 2) { 
                     spriteRenderer->textureName = "enemy-2life.png";
-                    enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-2life.png", whermst::GetEngine().GetRenderer());
+                    //enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-2life.png", whermst::GetEngine().GetRenderer());
                     enemy->fireTime = 2.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 50.0f;
                 }
                 else if (enemy->hitPoints == 1) { 
                     spriteRenderer->textureName = "enemy-1life.png";
-                    enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-1life.png", whermst::GetEngine().GetRenderer());
+                    //enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-1life.png", whermst::GetEngine().GetRenderer());
 				    enemy->fireTime = 4.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
                 }
