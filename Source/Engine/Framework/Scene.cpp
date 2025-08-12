@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "Renderer/Renderer.h"
+#include "Components/Collider.h"
 
 
 namespace whermst {
@@ -28,8 +29,12 @@ namespace whermst {
 			for (auto& actorB : _actors) {
 				if (actorA == actorB || (actorA->destroyed || actorB->destroyed)) continue;
 
-				float distance = (actorA->transform.position - actorB->transform.position).Length();
-				if (distance <= (actorA->GetRadius() + actorB->GetRadius())) {
+				auto colliderA = actorA->GetComponent<ColliderComponent>();
+				auto colliderB = actorB->GetComponent<ColliderComponent>();
+
+				if (!colliderA|| !colliderB) continue;
+
+				if (colliderA->CheckCollision(*colliderB)) {
 					actorA->OnCollision(actorB.get());
 					actorB->OnCollision(actorA.get());
 				}

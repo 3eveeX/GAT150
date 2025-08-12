@@ -183,7 +183,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Audio\AudioClip.cpp" />
     <ClCompile Include="Audio\AudioSystem.cpp" />
+    <ClCompile Include="Components\CircleCollider2d.cpp" />
+    <ClCompile Include="Components\Rigidbody.cpp" />
     <ClCompile Include="Components\SpriteRenderer.cpp" />
     <ClCompile Include="Core\File.cpp" />
     <ClCompile Include="Core\Time.cpp" />
@@ -206,8 +209,12 @@
     <ClCompile Include="Renderer\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\AudioClip.h" />
     <ClInclude Include="Audio\AudioSystem.h" />
+    <ClInclude Include="Components\CircleCollider2d.h" />
+    <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Components\RendererComponent.h" />
+    <ClInclude Include="Components\Rigidbody.h" />
     <ClInclude Include="Components\SpriteRenderer.h" />
     <ClInclude Include="Core\File.h" />
     <ClInclude Include="Core\Logger.h" />

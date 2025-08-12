@@ -9,5 +9,6 @@ namespace whermst
 	public:
 		void Update(float dt) override;
 		void Draw(Renderer& renderer) override;
+		//void UpdateTexture(const std::string& newTextureName);
 	};
 }

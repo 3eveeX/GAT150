@@ -12,15 +12,18 @@ namespace whermst{
 			
 			return; 
 		}
-		if (lifespan != 0.0f) {
+		if (lifespan > 0) {
 			lifespan -= dt;
-			destroyed = lifespan <= 0.0f;
+			if(lifespan <= 0) {
+				destroyed = true;
+				return;
+			}
 		}
+
 		for (auto& component : _components) {
 			if(component->active) component->Update(dt);
 		}
-		transform.position += velocity * dt;
-		velocity = velocity * (1.0f - damping * dt);
+		
 	}
 
 	void Actor::Draw(Renderer& renderer)
@@ -41,14 +44,7 @@ namespace whermst{
 	/// Returns the effective radius of the actor based on its texture size, scale, and a scaling factor.
 	/// </summary>
 	/// <returns>The computed radius of the actor. Returns 0 if the actor has no texture.</returns>
-	float Actor::GetRadius()
-	{
-		if (_texture) { return (_texture->GetSize().Length() * 0.5f) * transform.scale * 1.0f; }
-		else {
-			Logger::Error("texture does not exist");
-		}
-		
-	}
+	
 	void Actor::AddComponent(std::unique_ptr<Component> component)
 	{
 		component->owner = this;

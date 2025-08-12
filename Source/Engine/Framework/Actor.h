@@ -1,4 +1,5 @@
 #pragma once
+#include "EnginePCH.h"
 #include <memory>
 #include <string>
 #include "Math/Transform.h"
@@ -14,8 +15,6 @@ namespace whermst {
 		std::string tag;
 		bool destroyed{ false };
 		float lifespan{ 0.0f };
-		vec2 velocity{ 0, 0 };
-		float damping{ 0.1f };
 		Transform transform;
 		class Scene* _scene{ nullptr };
 	public:
@@ -29,14 +28,42 @@ namespace whermst {
 
 		virtual void OnCollision(Actor* other) = 0;
 
-		float GetRadius();
+		
 
 		void AddComponent(std::unique_ptr<Component> component);
 
+		template<typename T>
+		T* GetComponent();
+
+		template<typename T>
+		std::vector<T*> GetComponents();
 	protected:
 		std::vector<std::unique_ptr<Component>> _components;
 		//std::shared_ptr<class Model> _model;
 		
 
 	};
+
+
+	template<typename T>
+	inline T* Actor::GetComponent()
+	{
+		for (auto& component : _components) {
+			if (auto castedComponent = dynamic_cast<T*>(component.get())) {
+				return castedComponent;
+			}
+		}
+		return nullptr;
+	}
+	template<typename T>
+	inline std::vector<T*> Actor::GetComponents()
+	{
+		std::vector<T*> components;
+		for (auto& component : _components) {
+			if (auto castedComponent = dynamic_cast<T*>(component.get())) {
+				components.push_back(castedComponent);
+			}
+		}
+		return components;
+	}
 }

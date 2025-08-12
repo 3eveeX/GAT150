@@ -4,6 +4,7 @@
 #include "SpaceGame.h"
 #include "../GamePCH.h"
 
+
 void Player::Update(float dt)
 {
     
@@ -29,15 +30,19 @@ void Player::Update(float dt)
     whermst::vec2 direction{ 1, 0 };
 	whermst::vec2 force = direction.rotate(whermst::math::degToRad(transform.rotation)) * thrust * speed;
 
-	 velocity += force * dt;
-
+	 //velocity += force * dt;
+	auto* rb = GetComponent<whermst::Rigidbody>();
+	if (rb) {
+		rb->velocity += force * dt;
+	}
    
      transform.position.x = whermst::math::wrap(transform.position.x, 0.0f, (float)whermst::GetEngine().GetRenderer().GetWidth());
      transform.position.y = whermst::math::wrap(transform.position.y, 0.0f, (float)whermst::GetEngine().GetRenderer().GetHeight());
 	 
      fireTimer -= dt;
      if (fireTimer <= 0.0f && whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_SPACE)) {
-		 whermst::GetEngine().GetAudio().PlaySound("laser");
+		 //whermst::GetEngine().GetAudio().PlaySound("laser");
+         whermst::GetEngine().GetAudio().PlaySound(*(whermst::Resources().Get<whermst::AudioClip>("Laser.mp3", whermst::GetEngine().GetAudio())));
          fireTimer = fireTime;
          whermst::Transform transform{this -> transform.position, this -> transform.rotation, 1.0f};
          auto projectile = std::make_unique<Projectile>(transform); // , whermst::Resources().Get<whermst::Texture>("bullet.png", whermst::GetEngine().GetRenderer()));
@@ -48,6 +53,11 @@ void Player::Update(float dt)
          projectile->_texture = whermst::Resources().Get<whermst::Texture>("bullet.png", whermst::GetEngine().GetRenderer());
          auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
          spriteRenderer->textureName = "bullet.png";
+         auto rb = std::make_unique<whermst::Rigidbody>();
+         auto collider = std::make_unique<whermst::CircleCollider2d>();
+         collider->radius = 10;
+         projectile->AddComponent(std::move(collider));
+         projectile->AddComponent(std::move(rb));
 
          projectile->AddComponent(std::move(spriteRenderer));
 

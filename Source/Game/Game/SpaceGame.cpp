@@ -57,7 +57,7 @@ void SpaceGame::Update(float dt)
         auto player = std::make_unique<Player>(transform); // , whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer()));
         player->speed = 500.0f;
         player->rotateRate = 180.0f;
-        player->damping = .9f;
+        
         player->fireTime = 0.5f;
 		player->fireTimer = player->fireTime;
         player->name = "Player";
@@ -65,7 +65,14 @@ void SpaceGame::Update(float dt)
         auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
         spriteRenderer->textureName = "player.png";
 		player->_texture = whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer());
+		auto rb = std::make_unique<whermst::Rigidbody>();
 
+        auto collider = std::make_unique<whermst::CircleCollider2d>();
+        collider->radius = 40;
+        player->AddComponent(std::move(collider));
+
+		rb->damping = 0.9f;
+		player->AddComponent(std::move(rb));
         player->AddComponent(std::move(spriteRenderer));
         _scene->AddActor(std::move(player));
     }
@@ -104,9 +111,13 @@ void SpaceGame::Update(float dt)
 				    enemy->fireTime = 4.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
                 }
-                  enemy->damping = 0.9f;
+                auto rb = std::make_unique<whermst::Rigidbody>();
+                rb->damping = 0.9f;
+                enemy->AddComponent(std::move(rb));
                   enemy->tag = "Enemy";
-                  
+                  auto collider = std::make_unique<whermst::CircleCollider2d>();
+                  collider->radius = 40;
+                  enemy->AddComponent(std::move(collider));
 
                   enemy->AddComponent(std::move(spriteRenderer));
                   _scene->AddActor(std::move(enemy));

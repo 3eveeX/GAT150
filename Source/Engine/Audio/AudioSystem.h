@@ -17,11 +17,13 @@ namespace whermst {
 		bool Load(const std::string& filename, const std::string& name = "filename");
 
 		bool PlaySound(const std::string& name/*, const int volume*/);
+		bool PlaySound(class AudioClip& audioClip);
 
 	private:
-		bool CheckFmodResult(FMOD_RESULT result);
+		static bool CheckFmodResult(FMOD_RESULT result);
 
 	private:
+		friend class AudioClip;
 		FMOD::System* _system = nullptr;
 		std::map<std::string, FMOD::Sound*> _sounds;
 	};

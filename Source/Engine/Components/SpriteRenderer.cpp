@@ -8,7 +8,19 @@ namespace whermst {
 	}
 
 	void SpriteRenderer::Draw(Renderer& renderer)
-	{ 
-		renderer.DrawTexture(owner->_texture.get(), owner->transform.position.x, owner->transform.position.y, owner->transform.rotation, owner->transform.scale);
+	{
+		auto texture = Resources().Get<Texture>(textureName, renderer).get();
+			if (texture) {
+				renderer.DrawTexture(*texture,
+				owner->transform.position.x,
+					owner->transform.position.y,
+					owner->transform.rotation,
+					owner->transform.scale);
+			}
 	}
+	/*void SpriteRenderer::UpdateTexture(Renderer& renderer, std::string& newTextureName)
+	{
+		textureName = newTextureName;
+		auto texture = Resources().Get<Texture>(textureName, renderer).get();
+	}*/
 }

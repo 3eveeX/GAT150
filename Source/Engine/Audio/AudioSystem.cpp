@@ -1,4 +1,5 @@
 #include "AudioSystem.h"
+#include "AudioClip.h"
 
 namespace whermst {
 	/// <summary>
@@ -69,6 +70,12 @@ namespace whermst {
 		if (!CheckFmodResult(result)) return false;
 		/*FMOD_RESULT volumeResult = _system->setVolume((float)volume / 100.0f);
 		if (!CheckFmodResult(volumeResult)) return false;*/
+		return true;
+	}
+	bool AudioSystem::PlaySound(AudioClip& audioClip)
+	{
+		FMOD_RESULT result = _system->playSound(audioClip._sound, 0, false, nullptr);
+		if (!CheckFmodResult(result)) return false;
 		return true;
 	}
 }
