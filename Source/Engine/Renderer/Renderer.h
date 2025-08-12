@@ -1,9 +1,9 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <iostream>
+#include "Texture.h"
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3_image/SDL_image.h>
-#include "Texture.h"
 
 
 namespace whermst {

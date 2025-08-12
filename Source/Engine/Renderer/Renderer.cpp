@@ -1,8 +1,6 @@
 #include "Renderer.h"
-#include <iostream>
-#include "Math/Vector2.h"
 #include "Texture.h"
-#include "Core/Logger.h"
+
 
 namespace whermst {
     bool Renderer::Initialize()

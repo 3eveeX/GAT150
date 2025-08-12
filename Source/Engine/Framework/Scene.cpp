@@ -1,6 +1,4 @@
 #include "Scene.h"
-#include "Actor.h"
-#include "Core/StringHelper.h"
 #include "Renderer/Renderer.h"
 
 
@@ -11,7 +9,9 @@ namespace whermst {
 	/// <param name="dt">The time elapsed since the last update, in seconds.</param>
 	void Scene::Update(float dt) {
 		for (auto& actor : _actors) {
-			actor->Update(dt);
+			if (actor->active) {
+				actor->Update(dt);
+			}
 		}
 		// Remove destroyed actors from the scene
 		for (auto iter = _actors.begin(); iter != _actors.end();) {

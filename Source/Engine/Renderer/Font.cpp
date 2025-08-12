@@ -1,6 +1,5 @@
 #include "Font.h"
-#include "Core/Logger.h"
-#include <iostream>
+
 
 namespace whermst {
 	/// <summary>

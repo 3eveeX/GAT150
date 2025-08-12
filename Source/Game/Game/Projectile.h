@@ -7,10 +7,9 @@ public:
 	float speed = 200;
 public:
 	Projectile() = default;
-	Projectile(const whermst::Transform& transform, whermst::res_t<whermst::Texture> texture) :
-		Actor{ transform, texture }
-	{
-	}
+	Projectile(const whermst::Transform& transform) :
+		Actor{ transform }
+	{}
 
 	void Update(float dt) override;
 

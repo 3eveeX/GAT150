@@ -1,8 +1,4 @@
 #include "AudioSystem.h"
-#include "Core/StringHelper.h"
-#include "Core/Logger.h"
-#include <fmod_errors.h>
-#include <iostream>
 
 namespace whermst {
 	/// <summary>
@@ -37,7 +33,7 @@ namespace whermst {
 	}
 
 
-	bool AudioSystem::AddSound(const std::string& filename, const std::string& name)
+	bool AudioSystem::Load(const std::string& filename, const std::string& name)
 	{
 		std::string key = (name.empty()) ? filename : name;
 

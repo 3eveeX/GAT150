@@ -4,8 +4,8 @@
 class Player : public whermst::Actor{
 public:
 	Player() = default;
-	Player(const whermst::Transform& transform, whermst::res_t<whermst::Texture> texture) :
-		Actor{ transform, texture } 
+	Player(const whermst::Transform& transform) :
+		Actor{ transform }
 	{}
 
 	void Update(float dt) override;

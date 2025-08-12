@@ -1,11 +1,5 @@
 #include "Projectile.h"
-#include "Engine.h"
-#include"Core/StringHelper.h"
-#include "Framework/Scene.h"
-#include "Renderer/Renderer.h"
 #include "Player.h"
-#include "Renderer/ParticleSystem.h"
-#include "Core/Random.h"
 
 void Projectile::Update(float dt)
 {

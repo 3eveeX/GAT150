@@ -1,18 +1,8 @@
 #include "SpaceGame.h"
 #include "Player.h"
-#include "Framework/Scene.h"
-#include "Math/Vector2.h"
-#include "Renderer/Model.h"
-#include "Core/Random.h"
-#include "../Engine/Engine.h"
-#include "Renderer/Renderer.h"
 #include "Enemy.h"
 #include "GameData.h"
-#include "Renderer/Font.h"
-#include "Core/File.h"
-#include "Renderer/ParticleSystem.h"
-#include "Resources/ResourceManager.h"
-#include "Core/Logger.h"
+#include "../GamePCH.h"
 
 
 
@@ -29,7 +19,7 @@ bool SpaceGame::Initialize()
     _scoreboardText = std::make_unique<whermst::Text>(whermst::Resources().GetWithID<whermst::Font>("uifont", "8bitOperatorPlus8-Regular.ttf", 48.0f));
     _nameText = std::make_unique<whermst::Text>(whermst::Resources().GetWithID<whermst::Font>("titlefont", "8bitOperatorPlus8-Regular.ttf", 128.0f));
 	whermst::GetEngine().GetAudio().PlaySound("bgm");
-	_bgmTimer = 190;
+	_bgmTimer = 190;    
     return true;
 
 }    
@@ -63,8 +53,8 @@ void SpaceGame::Update(float dt)
     case SpaceGame::GameState::StartRound:
     {
         _scene->RemoveAllActors();
-        whermst::Transform transform{ whermst::vec2{whermst::GetEngine().GetRenderer().GetWidth() * 0.5f, whermst::GetEngine().GetRenderer().GetHeight() * 0.5f}, 0, 5 };
-        auto player = std::make_unique<Player>(transform, whermst::Resources().Get<whermst::Texture>("player", whermst::GetEngine().GetRenderer()));
+        whermst::Transform transform{ whermst::vec2{whermst::GetEngine().GetRenderer().GetWidth() * 0.5f, whermst::GetEngine().GetRenderer().GetHeight() * 0.5f}, 0, 1 };
+        auto player = std::make_unique<Player>(transform); // , whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer()));
         player->speed = 500.0f;
         player->rotateRate = 180.0f;
         player->damping = .9f;
@@ -72,6 +62,11 @@ void SpaceGame::Update(float dt)
 		player->fireTimer = player->fireTime;
         player->name = "Player";
         player->tag = "Player";
+        auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
+        spriteRenderer->textureName = "player.png";
+		player->_texture = whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer());
+
+        player->AddComponent(std::move(spriteRenderer));
         _scene->AddActor(std::move(player));
     }
 	_gameState = SpaceGame::GameState::Game;
@@ -87,26 +82,33 @@ void SpaceGame::Update(float dt)
                 whermst::vec2 position = player->transform.position + whermst::random::onUnitCircle() * whermst::random::getReal(200.0f, 500.0f);
 
                 std::shared_ptr<whermst::Model> enemyModel = std::make_shared<whermst::Model>(GameData::enemyPoints);
-                whermst::Transform transform{ position, whermst::random::getReal(0.0f, 360.0f), 5 };
-                std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform, whermst::Resources().Get<whermst::Texture>("player", whermst::GetEngine().GetRenderer()));
+                whermst::Transform transform{ position, whermst::random::getReal(0.0f, 360.0f), 1.0f };
+                std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform);// , whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer()));
+                auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
                 enemy->hitPoints = whermst::random::getInt(1, 3); // Random hit points between 1 and 3
                 if (enemy->hitPoints == 3) { 
-                    enemyModel->SetColour(whermst::vec3{ 0.4f, 0.5f, 0.0f }); 
+                    spriteRenderer->textureName = "enemy-3life.png";
+                    enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-3life.png", whermst::GetEngine().GetRenderer());
                     enemy->fireTime = 1.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 100.0f;
                 }
                 else if (enemy->hitPoints == 2) { 
-                    enemyModel->SetColour(whermst::vec3{ 0.7f, 0.6f, 0.1f }); 
+                    spriteRenderer->textureName = "enemy-2life.png";
+                    enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-2life.png", whermst::GetEngine().GetRenderer());
                     enemy->fireTime = 2.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 50.0f;
                 }
                 else if (enemy->hitPoints == 1) { 
-                    enemyModel->SetColour(whermst::vec3{ 0.7f, 0.0f, 0.0f }); 
+                    spriteRenderer->textureName = "enemy-1life.png";
+                    enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-1life.png", whermst::GetEngine().GetRenderer());
 				    enemy->fireTime = 4.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
                 }
                   enemy->damping = 0.9f;
                   enemy->tag = "Enemy";
+                  
+
+                  enemy->AddComponent(std::move(spriteRenderer));
                   _scene->AddActor(std::move(enemy));
             }
         }

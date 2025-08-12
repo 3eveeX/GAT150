@@ -1,15 +1,8 @@
 #include "Player.h"
-#include "Engine.h"
 #include "GameData.h"
-#include "Input/InputSystem.h"
-#include "Math/Math.h"
-#include "Math/Vector3.h"
 #include "Projectile.h"
-#include "Framework/Scene.h"
-#include "Renderer/Model.h"
-#include "Renderer/ParticleSystem.h"
 #include "SpaceGame.h"
-#include "Core/Random.h"
+#include "../GamePCH.h"
 
 void Player::Update(float dt)
 {
@@ -46,12 +39,18 @@ void Player::Update(float dt)
      if (fireTimer <= 0.0f && whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_SPACE)) {
 		 whermst::GetEngine().GetAudio().PlaySound("laser");
          fireTimer = fireTime;
-         whermst::Transform transform{this -> transform.position, this -> transform.rotation, 2.0f};
-         auto projectile = std::make_unique<Projectile>(transform, whermst::Resources().Get<whermst::Texture>("player", whermst::GetEngine().GetRenderer()));
+         whermst::Transform transform{this -> transform.position, this -> transform.rotation, 1.0f};
+         auto projectile = std::make_unique<Projectile>(transform); // , whermst::Resources().Get<whermst::Texture>("bullet.png", whermst::GetEngine().GetRenderer()));
          projectile->speed = 1000.0f;
          projectile->lifespan = 1.5f;
          projectile->name = "Projectile";
          projectile->tag = "player";
+         projectile->_texture = whermst::Resources().Get<whermst::Texture>("bullet.png", whermst::GetEngine().GetRenderer());
+         auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
+         spriteRenderer->textureName = "bullet.png";
+
+         projectile->AddComponent(std::move(spriteRenderer));
+
          _scene->AddActor(std::move(projectile));
      }
     

@@ -1,25 +1,12 @@
-#include <iostream>
-#include <vector>
-#include <memory>
-
-#include "Math/Math.h"
-#include "Core/Random.h"
+#include "EngineMinimal.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Model.h"
-#include "Math/Vector2.h"
-#include "Core/Time.h"
-#include "Framework/Actor.h"
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
-#include "Math/Vector3.h"
-#include "Math/Transform.h"
-#include "Framework/Scene.h"
 #include "Engine.h"
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
-#include "Core/File.h"
 #include "Renderer/Texture.h"
-#include "Resources/ResourceManager.h"
 
 #include "Game/Player.h"
 #include "Game/SpaceGame.h"
@@ -47,7 +34,7 @@ int main(int argc, char* argv[]) {
     //initialize image
 	/*std::shared_ptr<whermst::Texture> texture = std::make_shared<whermst::Texture>();
     texture->Load("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());*/
-	auto texture = whermst::Resources().Get<whermst::Texture>("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());
+	//auto texture = whermst::Resources().Get<whermst::Texture>("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());
 
     SDL_Event e;
     bool quit = false;
@@ -119,7 +106,7 @@ int main(int argc, char* argv[]) {
 		whermst::GetEngine().GetRenderer().SetColourf(colour.r, colour.g, colour.b); // Set the colour to black
         whermst::GetEngine().GetRenderer().Clear(); // Clear the renderer
         whermst::vec2 position = whermst::GetEngine().GetInput().GetMousePosition();
-        whermst::GetEngine().GetRenderer().DrawTexture(texture.get(), 300, 300, 90, 0.5f);
+        //whermst::GetEngine().GetRenderer().DrawTexture(texture.get(), 300, 300, 90, 0.5f);
 
         whermst::GetEngine().GetRenderer().SetColourf(2, 0.3f, 1); // Set the colour to white
 

@@ -1,21 +1,14 @@
 #include "Enemy.h"
-#include "Engine.h"
-#include "Framework/Scene.h"
-#include "Renderer/Renderer.h"
-#include "Player.h"
-#include "Framework/Game.h"
 #include "GameData.h"
 #include "Projectile.h"
-#include "Renderer/Model.h"
-#include "Math/Vector3.h"
-#include "Renderer/ParticleSystem.h"
-#include "Core/Random.h"
+#include "Player.h"
+#include "../GamePCH.h"
 
 void Enemy::Update(float dt)
 {
 	
 
-	Player* player = _scene -> GetActorByName<Player>("Player");
+	Player* player = _scene->GetActorByName<Player>("Player");
 	if (player) {
 		whermst::vec2 direction{ 0, 0 };
 		direction = player->transform.position - transform.position;
@@ -36,12 +29,18 @@ void Enemy::Update(float dt)
 	if (fireTimer <= 0) {
 		fireTimer = fireTime;
 		std::shared_ptr<whermst::Model> model = std::make_shared<whermst::Model>(GameData::projectilePoints, whermst::vec3{ 1.0f, 1.0f, 0.0f });
-		whermst::Transform transform{ this->transform.position, this->transform.rotation, 2.0f };
-		auto projectile = std::make_unique<Projectile>(transform, whermst::Resources().Get<whermst::Texture>("player", whermst::GetEngine().GetRenderer()));
+		whermst::Transform transform{ this->transform.position, this->transform.rotation, 0.5f };
+		auto projectile = std::make_unique<Projectile>(transform); // , whermst::Resources().Get<whermst::Texture>("bullet.png", whermst::GetEngine().GetRenderer()));
 		projectile->speed = 250.0f;
 		projectile->lifespan = 1.5f;
 		projectile->name = "Projectile";
 		projectile->tag = "enemy";
+		projectile->_texture = whermst::Resources().Get<whermst::Texture>("bullet.png", whermst::GetEngine().GetRenderer());
+		auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
+		spriteRenderer->textureName = "bullet.png";
+
+		projectile->AddComponent(std::move(spriteRenderer));
+
 		_scene->AddActor(std::move(projectile));
 	}
 	Actor::Update(dt);
@@ -50,7 +49,7 @@ void Enemy::Update(float dt)
 void Enemy::OnCollision(Actor* other)
 {
 	if (whermst::tolower(other->tag) != whermst::tolower(tag)) {
-
+		auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
 		if (hitPoints > 0) {
 			whermst::GetEngine().GetAudio().PlaySound("enemyHit");
 			if (other->name == "Player") {
@@ -63,12 +62,12 @@ void Enemy::OnCollision(Actor* other)
 
 		
 		if (hitPoints == 2) {
-			_texture->Load("enemy2.png", whermst::GetEngine().GetRenderer());
+			_texture = whermst::Resources().Get<whermst::Texture>("enemy-2life.png", whermst::GetEngine().GetRenderer());
 			fireTime = 2.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 50.0f;
 		}
 		else if (hitPoints == 1) {
-			_texture->Load("enemy1.png", whermst::GetEngine().GetRenderer());
+			_texture = whermst::Resources().Get<whermst::Texture>("enemy-1life.png", whermst::GetEngine().GetRenderer());
 			fireTime = 4.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
 		}

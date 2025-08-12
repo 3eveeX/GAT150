@@ -9,9 +9,13 @@ public:
 	int hitPoints = 1; // Number of hits before destruction
 public:
 	Enemy() = default;
-	Enemy(const whermst::Transform& transform, whermst::res_t<whermst::Texture> texture) :
-		Actor{ transform, texture }
+	Enemy(const whermst::Transform& transform) :
+		Actor{ transform}
 	{
+	}
+
+	void UpdateTexture(whermst::res_t<whermst::Texture> texture) {
+		_texture = texture;
 	}
 
 	void Update(float dt) override;

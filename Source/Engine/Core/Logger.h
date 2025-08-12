@@ -79,12 +79,12 @@ namespace  {
 
 		template<typename... Args>
 		static void Warning(std::format_string<Args...> fmt, Args&&... args) {
-			<call Log() with warning level and std::format with args>
+			Log(LogLevel::Warning, std::format(fmt, std::forward<Args>(args)...));
 		}
 
 		template<typename... Args>
 		static void Debug(std::format_string<Args...> fmt, Args&&... args) {
-			<call Log() with debug level and std::format with args>
+			Log(LogLevel::Debug, std::format(fmt, std::forward<Args>(args)...));
 		}
 
 	private:

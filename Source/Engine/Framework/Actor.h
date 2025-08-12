@@ -3,12 +3,14 @@
 #include <string>
 #include "Math/Transform.h"
 #include "Renderer/Texture.h"
+#include "Framework/Object.h"
+#include "Framework/Component.h"
 
 
 namespace whermst {
-	class Actor {
+	class Actor : public Object{
 	public:
-		std::string name;
+		std::shared_ptr<Texture> _texture{ nullptr };
 		std::string tag;
 		bool destroyed{ false };
 		float lifespan{ 0.0f };
@@ -18,9 +20,8 @@ namespace whermst {
 		class Scene* _scene{ nullptr };
 	public:
 		Actor() = default;
-		Actor(const Transform& transform, std::shared_ptr<class Texture> texture) :
-			transform{ transform },
-			_texture{ texture }
+		Actor(const Transform& transform) :
+			transform{ transform }
 		{}
 
 		virtual void Update(float dt);
@@ -30,9 +31,10 @@ namespace whermst {
 
 		float GetRadius();
 
+		void AddComponent(std::unique_ptr<Component> component);
 
 	protected:
-		res_t<Texture> _texture{ nullptr };
+		std::vector<std::unique_ptr<Component>> _components;
 		//std::shared_ptr<class Model> _model;
 		
 
