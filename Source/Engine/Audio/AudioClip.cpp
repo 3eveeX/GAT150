@@ -5,7 +5,7 @@
 namespace whermst {
     AudioClip::~AudioClip()
     {
-        //if (_sound) _sound->release();
+        if (_sound) _sound->release();
     }
 
     bool AudioClip::Load(const std::string& fileName, AudioSystem& audioSystem)

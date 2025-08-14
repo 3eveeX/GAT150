@@ -19,7 +19,7 @@ namespace GameData {
    { -5, -2 },
    { -4, -3 },
    { -4, -5 },
-   { -3, -6 },
+   { -3, -6 }
     };
 
     std::vector<whermst::vec2> projectilePoints{

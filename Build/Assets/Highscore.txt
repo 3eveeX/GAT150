@@ -1,4 +1,3 @@
+Xadia: 4300
 Alya: 3800
-Xadia: 2400
-Dia: 1900
-Dia: 1900
+X: 3100

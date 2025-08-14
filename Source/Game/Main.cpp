@@ -1,6 +1,5 @@
 #include "EngineMinimal.h"
 #include "Renderer/Renderer.h"
-#include "Renderer/Model.h"
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
 #include "Engine.h"
@@ -13,12 +12,50 @@
 
 
 int main(int argc, char* argv[]) {
+	// set the current directory to the Assets folder
+    whermst::file::SetCurrentDirectory("Assets");
+    // read/show the data from the json file
+    std::string name;
+    int age;
+    float speed;
+    bool isAwake;
+    whermst::vec2 position;
+    whermst::vec3 color;
+
+    // load the json data from a file
+    std::string buffer;
+    whermst::file::ReadTextFile("json.txt", buffer);
+    // show the contents of the json file (debug)
+    std::cout << buffer << std::endl;
+
+    // create json document from the json file contents
+    rapidjson::Document document;
+    whermst::json::Load("json.txt", document);
+    // read the json data
+    JSON_READ(document, name);
+    JSON_READ(document, age);
+    JSON_READ(document, speed);
+    JSON_READ(document, isAwake);
+    JSON_READ(document, position);
+    JSON_READ(document, color);
+
+    // show the data
+    std::cout << name << " " << age << " " << speed << " " << isAwake << std::endl;
+    std::cout << position.x << " " << position.y << std::endl;
+    std::cout << color.r << " " << color.g << " " << color.b << " " << std::endl;
+
+    return 0;
+
+	std::cout << argc << " arguments passed to the program." << std::endl;
+    for (size_t i = 0; i < argc; i++)
+    {
+        std::cout << argv[i] << std::endl;
+     
+    }
 
     //initialize engine 
 	whermst::GetEngine().Initialize();
 
-	
-    
     //initialize game
 	std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
 	game->Initialize();
@@ -74,6 +111,9 @@ int main(int argc, char* argv[]) {
             whermst::GetEngine().GetInput().HandleEvent(e);
         }
         //get input
+        if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_ESCAPE)) {
+            quit = true;
+        }
        /* if (input.GetKeyDown(SDL_SCANCODE_A)) audio.PlaySound("bass");
         if (input.GetKeyDown(SDL_SCANCODE_S)) audio.PlaySound("clap");
         if (input.GetKeyDown(SDL_SCANCODE_D)) audio.PlaySound("close-hat");
@@ -121,6 +161,8 @@ int main(int argc, char* argv[]) {
 	game->Shutdown(); // Shutdown the game
 	game.release(); // Release the game object
 	whermst::GetEngine().Shutdown(); // Shutdown the engine
+
+
 
     return 0;
 }

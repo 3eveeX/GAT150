@@ -6,6 +6,7 @@
  
 //components
 #include "Components/SpriteRenderer.h"
+#include "Components/MeshRenderer.h"
 #include "Components/Rigidbody.h"
 #include "Components/CircleCollider2d.h"
 
@@ -21,5 +22,5 @@
 #include "Renderer/Texture.h"
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
-#include "Renderer/Model.h"
+#include "Renderer/Mesh.h"
 #include "Renderer/ParticleSystem.h"

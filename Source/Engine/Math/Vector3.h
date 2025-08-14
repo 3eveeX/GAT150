@@ -13,8 +13,8 @@ namespace whermst {
 		Vector3() = default;
 		Vector3(T x, T y, T z) : x{ x }, y{ y }, z{ z } {}
 
-		T operator []	(unsigned int index) const { assert(index < 2); return (&x)[index]; }
-		T& operator []	(unsigned int index) { assert(index < 2); return (&x)[index]; }
+		T operator []	(unsigned int index) const { assert(index < 3); return (&x)[index]; }
+		T& operator []	(unsigned int index) { assert(index < 3); return (&x)[index]; }
 
 		Vector3 operator + (const Vector3& v) const { return Vector3{ x + v.x, y + v.y, z + v.z }; }
 		Vector3 operator - (const Vector3& v) const { return Vector3{ x - v.x, y - v.y, z - v.z }; }
@@ -48,6 +48,47 @@ namespace whermst {
 		float Length() { return math::sqrtf(LengthSqr()); }
 	};
 
+	template<typename T>
+	std::ostream& operator << (std::ostream& stream, const Vector3<T>& v) {
+		stream << "{" << v.x << ", " << v.y << ", " << v.z << "}";
+
+		return stream;
+	}
+
+	template<typename T>
+	std::istream& operator >> (std::istream& stream, Vector3<T>& v) {
+		char discard;
+		if (!(stream >> std::ws >> discard) || discard != '{') {
+			stream.setstate(std::ios::failbit);
+			return stream; // If the first character is not '{', return the stream unchanged
+		}
+		if (!(stream >> std::ws >> v.x)) {
+			stream.setstate(std::ios::failbit);
+			return stream; // If reading x fails, return the stream unchanged
+		}
+		if (!(stream >> std::ws >> discard) || discard != ',') {
+			stream.setstate(std::ios::failbit);
+			return stream; // If the next character is not ',', return the stream unchanged
+		}
+		if (!(stream >> std::ws >> v.y)) {
+			stream.setstate(std::ios::failbit);
+			return stream; // If reading y fails, return the stream unchanged
+		}
+		if (!(stream >> std::ws >> discard) || discard != ',') {
+			stream.setstate(std::ios::failbit);
+			return stream; // If the next character is not ',', return the stream unchanged
+		}
+		if (!(stream >> std::ws >> v.z)) {
+			stream.setstate(std::ios::failbit);
+			return stream; // If reading z fails, return the stream unchanged
+		}
+		if (!(stream >> std::ws >> discard) || discard != '}') {
+			stream.setstate(std::ios::failbit);
+			return stream; // If the last character is not '}', return the stream unchanged
+		}
+
+		return stream;
+	}
 
 	using ivec3 = Vector3<int>;
 	using vec3 = Vector3<float>;

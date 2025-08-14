@@ -33,7 +33,7 @@ void Enemy::Update(float dt)
 	fireTimer -= dt;
 	if (fireTimer <= 0) {
 		fireTimer = fireTime;
-		std::shared_ptr<whermst::Model> model = std::make_shared<whermst::Model>(GameData::projectilePoints, whermst::vec3{ 1.0f, 1.0f, 0.0f });
+		std::shared_ptr<whermst::Mesh> model = std::make_shared<whermst::Mesh>(GameData::projectilePoints, whermst::vec3{ 1.0f, 1.0f, 0.0f });
 		whermst::Transform transform{ this->transform.position, this->transform.rotation, 0.5f };
 		auto projectile = std::make_unique<Projectile>(transform); // , whermst::Resources().Get<whermst::Texture>("bullet.png", whermst::GetEngine().GetRenderer()));
 		projectile->speed = 250.0f;

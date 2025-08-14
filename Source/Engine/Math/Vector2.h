@@ -110,6 +110,39 @@ namespace whermst {
 
 	};
 
+	template<typename T>
+	std::ostream& operator << (std::ostream& stream, const Vector2<T>& v) {
+	stream << "{" << v.x << ", " << v.y << "}";
+
+	return stream;
+	}
+
+	template<typename T>
+	std::istream& operator >> (std::istream& stream, Vector2<T>& v) {
+		char discard;
+		if (!(stream >> std::ws >> discard) || discard != '{') {
+			stream.setstate(std::ios::failbit); // If the first character is not '{', set the failbit
+			return stream; // If the first character is not '{', return the stream unchanged
+		}
+		if(!(stream >> std::ws >> v.x)) {
+			stream.setstate(std::ios::failbit);
+			return stream; // If reading x fails, return the stream unchanged
+		}
+		if(!(stream >> std::ws >> discard) || discard != ',') {
+			stream.setstate(std::ios::failbit);
+			return stream; // If the next character is not ',', return the stream unchanged
+		}
+		if(!(stream >> std::ws >> v.y)) {
+			stream.setstate(std::ios::failbit);
+			return stream; // If reading y fails, return the stream unchanged
+		}
+		if(!(stream >> std::ws >> discard) || discard != '}') {
+			stream.setstate(std::ios::failbit);
+			return stream; // If the last character is not '}', return the stream unchanged
+		}
+
+		return stream;
+	}
 
 	using ivec2 = Vector2<int>;
 	using vec2 = Vector2<float>;
