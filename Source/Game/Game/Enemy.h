@@ -1,7 +1,9 @@
 #pragma once
-#include "Framework/Actor.h"
+#include "Framework/Component.h"
 
-class Enemy : public whermst::Actor {
+
+
+class Enemy : public whermst::Component {
 public:
 	float speed = 200;
 	float fireTime = 0.2f;
@@ -9,18 +11,18 @@ public:
 	int hitPoints = 1; // Number of hits before destruction
 public:
 	Enemy() = default;
-	Enemy(const whermst::Transform& transform) :
+	/*Enemy(const whermst::Transform& transform) :
 		Actor{ transform}
 	{
-	}
+	}*/
 
-	void UpdateTexture(whermst::res_t<whermst::Texture> texture) {
+	/*void UpdateTexture(whermst::res_t<whermst::Texture> texture) {
 		_texture = texture;
-	}
+	}*/
 
 	void Update(float dt) override;
 
-	void OnCollision(Actor* other) override;
+	void OnCollision(class Actor* other);
 
 };
 

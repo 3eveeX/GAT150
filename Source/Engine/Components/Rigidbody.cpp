@@ -1,6 +1,8 @@
 #include "EnginePCH.h"
 #include "Rigidbody.h"
 
+FACTORY_REGISTER(Rigidbody)
+
 namespace whermst {
 	void Rigidbody::Update(float dt)
 	{

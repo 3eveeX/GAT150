@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "../GamePCH.h"
 
+FACTORY_REGISTER(Projectile);
+
 void Projectile::Update(float dt)
 {
 	whermst::vec2 force = whermst::vec2{ 1, 0 }.rotate(whermst::math::degToRad(transform.rotation)) * speed;

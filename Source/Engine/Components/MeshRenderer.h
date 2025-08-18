@@ -1,6 +1,7 @@
 #pragma once
 #include "RendererComponent.h"
 
+
 namespace whermst
 {
 	class MeshRenderer : public RendererComponent {

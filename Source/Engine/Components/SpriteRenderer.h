@@ -3,6 +3,9 @@
 
 namespace whermst
 {
+
+	
+
 	class SpriteRenderer : public RendererComponent {
 	public:
 		std::string textureName; 

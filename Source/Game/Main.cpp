@@ -11,40 +11,18 @@
 #include "Game/SpaceGame.h"
 
 
-int main(int argc, char* argv[]) {
+
+
+int main(int argc, char* argv[]) { 
+
+
+
 	// set the current directory to the Assets folder
     whermst::file::SetCurrentDirectory("Assets");
-    // read/show the data from the json file
-    std::string name;
-    int age;
-    float speed;
-    bool isAwake;
-    whermst::vec2 position;
-    whermst::vec3 color;
+	whermst::Factory::Instance().Register<whermst::SpriteRenderer>("SpriteRenderer");
 
-    // load the json data from a file
-    std::string buffer;
-    whermst::file::ReadTextFile("json.txt", buffer);
-    // show the contents of the json file (debug)
-    std::cout << buffer << std::endl;
-
-    // create json document from the json file contents
-    rapidjson::Document document;
-    whermst::json::Load("json.txt", document);
-    // read the json data
-    JSON_READ(document, name);
-    JSON_READ(document, age);
-    JSON_READ(document, speed);
-    JSON_READ(document, isAwake);
-    JSON_READ(document, position);
-    JSON_READ(document, color);
-
-    // show the data
-    std::cout << name << " " << age << " " << speed << " " << isAwake << std::endl;
-    std::cout << position.x << " " << position.y << std::endl;
-    std::cout << color.r << " " << color.g << " " << color.b << " " << std::endl;
-
-    return 0;
+	auto spriteRenderer = whermst::Factory::Instance().Create<whermst::SpriteRenderer>("SpriteRenderer");
+	spriteRenderer->name = "MySpriteRenderer";
 
 	std::cout << argc << " arguments passed to the program." << std::endl;
     for (size_t i = 0; i < argc; i++)
@@ -52,7 +30,7 @@ int main(int argc, char* argv[]) {
         std::cout << argv[i] << std::endl;
      
     }
-
+    return 0;
     //initialize engine 
 	whermst::GetEngine().Initialize();
 

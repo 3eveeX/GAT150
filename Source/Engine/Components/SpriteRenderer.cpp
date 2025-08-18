@@ -1,6 +1,9 @@
 #include "EnginePCH.h"
 #include "SpriteRenderer.h"
 #include "Renderer/Renderer.h"
+
+FACTORY_REGISTER(SpriteRenderer)
+
 namespace whermst {
 	void SpriteRenderer::Update(float dt)
 	{

@@ -8,6 +8,7 @@
 #include "Core/Stringhelper.h"
 #include "Core/Time.h"
 #include "Core/json.h"
+#include "Core/Factory.h"
 
 //framework
 #include "Framework/Actor.h"

@@ -1,12 +1,14 @@
 #pragma once
-#include "Framework/Actor.h"
+#include "Framework/Component.h"
 
-class Player : public whermst::Actor{
+
+
+class Player : public whermst::Component{
 public:
 	Player() = default;
-	Player(const whermst::Transform& transform) :
+	/*Player(const whermst::Transform& transform) :
 		Actor{ transform }
-	{}
+	{}*/
 
 	void Update(float dt) override;
 
@@ -16,6 +18,6 @@ public:
 	float fireTimer = 0.2f;
 
 	// Inherited via Actor
-	void OnCollision(Actor* other) override;
+	void OnCollision(class Actor* other);
 
 };

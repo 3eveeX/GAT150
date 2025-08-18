@@ -2,6 +2,7 @@
 #include "Framework/Component.h"
 
 namespace whermst {
+	
 	class Rigidbody : public Component{
 	public:
 		vec2 velocity{ 0, 0 };

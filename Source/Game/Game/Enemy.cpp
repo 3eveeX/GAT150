@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "../GamePCH.h"
 
+FACTORY_REGISTER(Enemy);
+
 void Enemy::Update(float dt)
 {
 	
@@ -11,7 +13,7 @@ void Enemy::Update(float dt)
 	Player* player = _scene->GetActorByName<Player>("Player");
 	if (player) {
 		whermst::vec2 direction{ 0, 0 };
-		direction = player->transform.position - transform.position;
+		direction = player->owner->transform.position - transform.position;
 
 
 		direction.Normalized();

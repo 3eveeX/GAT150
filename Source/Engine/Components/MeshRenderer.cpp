@@ -2,6 +2,9 @@
 #include "MeshRenderer.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Mesh.h"
+
+FACTORY_REGISTER(MeshRenderer)
+
 namespace whermst {
 	void MeshRenderer::Update(float dt)
 	{
