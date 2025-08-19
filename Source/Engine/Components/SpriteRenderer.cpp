@@ -2,9 +2,9 @@
 #include "SpriteRenderer.h"
 #include "Renderer/Renderer.h"
 
-FACTORY_REGISTER(SpriteRenderer)
 
 namespace whermst {
+	FACTORY_REGISTER(SpriteRenderer)
 	void SpriteRenderer::Update(float dt)
 	{
 		//
@@ -20,6 +20,12 @@ namespace whermst {
 					owner->transform.rotation,
 					owner->transform.scale);
 			}
+	}
+	void SpriteRenderer::Read(const json::value_t& value)
+	{
+		Object::Read(value);
+
+		JSON_READ(value, textureName);
 	}
 	/*void SpriteRenderer::UpdateTexture(const std::string& newTextureName)
 	{

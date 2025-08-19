@@ -2,9 +2,9 @@
 #include "AudioClip.h"
 #include "AudioSystem.h"
 
-FACTORY_REGISTER(SpriteRenderer)
 
 namespace whermst {
+    
     AudioClip::~AudioClip()
     {
         if (_sound) _sound->release();

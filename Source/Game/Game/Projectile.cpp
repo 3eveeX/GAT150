@@ -1,12 +1,14 @@
 #include "Projectile.h"
 #include "Engine.h"
 #include "Player.h"
+#include "Framework/Actor.h"
 #include "../GamePCH.h"
 
 FACTORY_REGISTER(Projectile);
 
 void Projectile::Update(float dt)
 {
+	/*
 	whermst::vec2 force = whermst::vec2{ 1, 0 }.rotate(whermst::math::degToRad(transform.rotation)) * speed;
 	//velocity = force;
 	auto* rb = GetComponent<whermst::Rigidbody>();
@@ -30,11 +32,12 @@ void Projectile::Update(float dt)
 	particle.active = true;
 	whermst::GetEngine().GetPT().AddParticle(particle);
 	Actor::Update(dt);
+	*/
 }
 
-void Projectile::OnCollision(Actor* other)
+void Projectile::OnCollision(whermst::Actor* other)
 {
-	if (whermst::tolower(other->tag) != whermst::tolower(tag)) {
-		destroyed = true;
+	if (whermst::tolower(other->tag) != whermst::tolower(owner->tag)) {
+		owner->destroyed = true;
 	}
 }

@@ -1,9 +1,9 @@
 #include "EnginePCH.h"
 #include "Rigidbody.h"
 
-FACTORY_REGISTER(Rigidbody)
 
 namespace whermst {
+	FACTORY_REGISTER(Rigidbody)
 	void Rigidbody::Update(float dt)
 	{
 		owner->transform.position += velocity * dt;

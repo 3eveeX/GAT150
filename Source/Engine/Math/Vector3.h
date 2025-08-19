@@ -1,6 +1,7 @@
 #pragma once
-#include <cassert>
 #include "Math.h"
+#include <cassert>
+#include <iostream>
 
 namespace whermst {
 	template <typename T>

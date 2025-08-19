@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "GameData.h"
 #include "../GamePCH.h"
+#include <fstream> // Ensure this include is present for std::ifstream and std::getline  
 
 
 
@@ -10,6 +11,10 @@ bool SpaceGame::Initialize()
 {
    
 	_scene = std::make_unique<whermst::Scene>(this);
+
+	whermst::json::document_t document;
+	whermst::json::Load("scene.json", document);
+	_scene->Read(document);
 	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
 	whermst::file::SetCurrentDirectory("Assets");
 	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
@@ -22,7 +27,9 @@ bool SpaceGame::Initialize()
 	_bgmTimer = 190;    
     return true;
 
-}    
+}
+
+
 
 void SpaceGame::Update(float dt)
 {
@@ -30,14 +37,14 @@ void SpaceGame::Update(float dt)
     if (_bgmTimer <= 0) {
         whermst::GetEngine().GetAudio().PlaySound("bgm");
         _bgmTimer = 190;
-	}
+    }
     switch (_gameState)
     {
     case SpaceGame::GameState::Initialize:
 
-       
 
-		_gameState = SpaceGame::GameState::Title;
+
+        _gameState = SpaceGame::GameState::Title;
         break;
     case SpaceGame::GameState::Title:
         _scene->RemoveAllActors();
@@ -45,45 +52,47 @@ void SpaceGame::Update(float dt)
             _gameState = SpaceGame::GameState::StartGame;
         }
         break;
-        case SpaceGame::GameState::StartGame:
-			ResetPoints();
-			SetLives(3);
-			_gameState = SpaceGame::GameState::StartRound;
-			break;
+    case SpaceGame::GameState::StartGame:
+        ResetPoints();
+        SetLives(3);
+        _gameState = SpaceGame::GameState::StartRound;
+        break;
     case SpaceGame::GameState::StartRound:
     {
+        /*
         _scene->RemoveAllActors();
         whermst::Transform transform{ whermst::vec2{whermst::GetEngine().GetRenderer().GetWidth() * 0.5f, whermst::GetEngine().GetRenderer().GetHeight() * 0.5f}, 0, 1 };
         auto player = std::make_unique<Player>(transform); // , whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer()));
         player->speed = 500.0f;
         player->rotateRate = 180.0f;
-        
+
         player->fireTime = 0.5f;
-		player->fireTimer = player->fireTime;
+        player->fireTimer = player->fireTime;
         player->name = "Player";
         player->tag = "Player";
         auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
         spriteRenderer->textureName = "player.png";
-		player->_texture = whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer());
-		auto rb = std::make_unique<whermst::Rigidbody>();
+        player->_texture = whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer());
+        auto rb = std::make_unique<whermst::Rigidbody>();
 
         auto collider = std::make_unique<whermst::CircleCollider2d>();
         collider->radius = 40;
         player->AddComponent(std::move(collider));
 
-		rb->damping = 0.9f;
-		player->AddComponent(std::move(rb));
+        rb->damping = 0.9f;
+        player->AddComponent(std::move(rb));
         player->AddComponent(std::move(spriteRenderer));
         _scene->AddActor(std::move(player));
     }
-	_gameState = SpaceGame::GameState::Game;
+    _gameState = SpaceGame::GameState::Game;
+    */
         break;
-	case SpaceGame::GameState::Game:
-        
+    case SpaceGame::GameState::Game:
+        /*
         _enemySpawnTimer -= dt;
         if (_enemySpawnTimer <= 0) {
             _enemySpawnTimer = 4.0f;
-			Player* player = _scene->GetActorByName<Player>("Player");
+            Player* player = _scene->GetActorByName<Player>("Player");
             if (player) {
 
                 whermst::vec2 position = player->transform.position + whermst::random::onUnitCircle() * whermst::random::getReal(200.0f, 500.0f);
@@ -93,25 +102,25 @@ void SpaceGame::Update(float dt)
                 std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform);// , whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer()));
                 ///auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
                 enemy->hitPoints = whermst::random::getInt(1, 3); // Random hit points between 1 and 3
-				auto meshRenderer = std::make_unique<whermst::MeshRenderer>();
-				meshRenderer->meshName = "meshes/Enemy.txt";
-				enemy->AddComponent(std::move(meshRenderer));
-                if (enemy->hitPoints == 3) { 
+                auto meshRenderer = std::make_unique<whermst::MeshRenderer>();
+                meshRenderer->meshName = "meshes/Enemy.txt";
+                enemy->AddComponent(std::move(meshRenderer));
+                if (enemy->hitPoints == 3) {
                   //  spriteRenderer->textureName = "enemy-3life.png";
                     //enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-3life.png", whermst::GetEngine().GetRenderer());
                     enemy->fireTime = 1.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 100.0f;
                 }
-                else if (enemy->hitPoints == 2) { 
+                else if (enemy->hitPoints == 2) {
                   //  spriteRenderer->textureName = "enemy-2life.png";
                     //enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-2life.png", whermst::GetEngine().GetRenderer());
                     enemy->fireTime = 2.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 50.0f;
                 }
-                else if (enemy->hitPoints == 1) { 
+                else if (enemy->hitPoints == 1) {
                    // spriteRenderer->textureName = "enemy-1life.png";
                     //enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-1life.png", whermst::GetEngine().GetRenderer());
-				    enemy->fireTime = 4.0f;
+                    enemy->fireTime = 4.0f;
                     enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
                 }
                 auto rb = std::make_unique<whermst::Rigidbody>();
@@ -126,61 +135,62 @@ void SpaceGame::Update(float dt)
                   _scene->AddActor(std::move(enemy));
             }
         }
-
+          */
         break;
-	case SpaceGame::GameState::PlayerDead:
+    case SpaceGame::GameState::PlayerDead:
         _stateTimer -= dt;
         if (_stateTimer <= 0) {
             _lives--;
             if (_lives <= 0) {
-				_stateTimer = 3.0f;
-		whermst::GetEngine().GetInput().StartTextInput(whermst::GetEngine().GetRenderer());
+                _stateTimer = 3.0f;
+                whermst::GetEngine().GetInput().StartTextInput(whermst::GetEngine().GetRenderer());
                 _gameState = GameState::GameOver;
             }
             else {
                 _gameState = GameState::StartRound;
             }
         }
-		
-		break;
+
+        break;
     case SpaceGame::GameState::GameOver:
-		_playerName = whermst::GetEngine().GetInput().GetTextInput();
+        _playerName = whermst::GetEngine().GetInput().GetTextInput();
         if (!_playerName.empty() && whermst::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_RETURN)) {
-			whermst::GetEngine().GetInput().StopTextInput(whermst::GetEngine().GetRenderer());
-			std::string str = _playerName + ": " + std::to_string(_score) + "\n";
+            whermst::GetEngine().GetInput().StopTextInput(whermst::GetEngine().GetRenderer());
+            std::string str = _playerName + ": " + std::to_string(_score) + "\n";
             std::string score = str.substr(str.find(": ") + 2);
-			int highscore = std::stoi(score);
+            int highscore = std::stoi(score);
             std::cout << score << std::endl;
-			if (whermst::file::Exists("Highscore.txt")) {
-				whermst::file::WriteTextFile("Highscore.txt", str, true);
-				whermst::file::SortFileByScore("Highscore.txt", ": ", 0, 3);
-			}
-			else {
-				whermst::file::WriteTextFile("Highscore.txt", str);
-			}
-			_playerName = "";
-			_gameState = GameState::Title;
+            if (whermst::file::Exists("Highscore.txt")) {
+                whermst::file::WriteTextFile("Highscore.txt", str, true);
+                whermst::file::SortFileByScore("Highscore.txt", ": ", 0, 3);
+            }
+            else {
+                whermst::file::WriteTextFile("Highscore.txt", str);
+            }
+            _playerName = "";
+            _gameState = GameState::Title;
         }
         else if (whermst::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_RETURN)) {
             whermst::GetEngine().GetInput().StopTextInput(whermst::GetEngine().GetRenderer());
-			_playerName = "";
-			_gameState = GameState::Title;
+            _playerName = "";
+            _gameState = GameState::Title;
         }
         break;
     default:
         break;
+
     }
-    _scene -> Update(whermst::GetEngine().GetTime().GetDeltaTime());    
+    _scene->Update(whermst::GetEngine().GetTime().GetDeltaTime());
+    }
 }
+
+
 
 void SpaceGame::Shutdown()
 {
-    //
 }
 
-#include <fstream> // Ensure this include is present for std::ifstream and std::getline  
-
-void SpaceGame::Draw(whermst::Renderer& renderer)  
+void SpaceGame::Draw(whermst::Renderer& renderer)
 {  
     if (_gameState == GameState::Title) {  
         _titleText->Create(renderer, "Unnamed Space Game", whermst::vec3{ 1, 1, 1 });  
@@ -225,7 +235,7 @@ void SpaceGame::Draw(whermst::Renderer& renderer)
         _livesText->Draw(renderer, renderer.GetWidth() - 700.0f, 20);
     }
     whermst::GetEngine().GetPT().Draw(renderer);
-    _scene -> Draw(renderer);
+    _scene->Draw(renderer);
 }
 
 void SpaceGame::OnPlayerDeath()

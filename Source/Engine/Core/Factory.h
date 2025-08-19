@@ -61,10 +61,17 @@ namespace whermst {
 		std::string key = tolower(typeName);
 		auto it = _registry.find(key);
 		if (it != _registry.end()) {
-			return it->second->Create();
+			auto object  =  it->second->Create();
+			T* derived = dynamic_cast<T*>(object.get());
+			if (derived) {
+				object.release(); 
+				return std::unique_ptr<T>(derived);
+			}
+			Logger::Error("Factory: Type '{}' is not of the expected type '{}'.", typeName, typeid(T).name());
 		}
-
-		Logger::Error("Factory: Type '{}' is not registered.", typeName);
+		else {
+			Logger::Error("Factory: Type '{}' is not registered.", typeName);
+		}
 
 		return nullptr;
 		

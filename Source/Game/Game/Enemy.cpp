@@ -2,13 +2,14 @@
 #include "GameData.h"
 #include "Projectile.h"
 #include "Player.h"
+#include "Framework/Actor.h"
 #include "../GamePCH.h"
 
 FACTORY_REGISTER(Enemy);
 
 void Enemy::Update(float dt)
 {
-	
+	/*
 
 	Player* player = _scene->GetActorByName<Player>("Player");
 	if (player) {
@@ -55,12 +56,13 @@ void Enemy::Update(float dt)
 		_scene->AddActor(std::move(projectile));
 	}
 	Actor::Update(dt);
+	*/
 }
 
-void Enemy::OnCollision(Actor* other)
+void Enemy::OnCollision(whermst::Actor* other)
 {
-	if (whermst::tolower(other->tag) != whermst::tolower(tag)) {
-		RemoveComponent(GetComponent<whermst::SpriteRenderer>());
+	if (whermst::tolower(other->tag) != whermst::tolower(owner->tag)) {
+		owner->RemoveComponent(owner->GetComponent<whermst::SpriteRenderer>());
 		auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
 		if (hitPoints > 0) {
 			whermst::GetEngine().GetAudio().PlaySound("enemyHit");
@@ -77,23 +79,23 @@ void Enemy::OnCollision(Actor* other)
 			spriteRenderer->textureName = "enemy-2life.png";
 			fireTime = 2.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 50.0f;
-			AddComponent(std::move(spriteRenderer));
+			owner->AddComponent(std::move(spriteRenderer));
 		}
 		else if (hitPoints == 1) {
 			spriteRenderer->textureName = "enemy-1life.png";
 			fireTime = 4.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
-			AddComponent(std::move(spriteRenderer));
+			owner->AddComponent(std::move(spriteRenderer));
 		}
 
 
 		if(hitPoints == 0){
 		whermst::GetEngine().GetAudio().PlaySound("Explode");
-		destroyed = true;
-		_scene->GetGame()->AddPoints(100);
+		owner -> destroyed = true;
+		owner->_scene->GetGame()->AddPoints(100);
 		for (int i = 0; i < 100; i++) {
 			whermst::Particle particle;
-			particle.position = transform.position;
+			particle.position = owner->transform.position;
 			particle.velocity = (whermst::random::onUnitCircle() * 3) * whermst::random::getReal(1.0f, 40.0f);
 			int colourRandom = whermst::random::getInt() % 3;
 			if (colourRandom == 0) {

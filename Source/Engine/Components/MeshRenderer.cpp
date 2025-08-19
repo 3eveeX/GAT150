@@ -3,9 +3,9 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/Mesh.h"
 
-FACTORY_REGISTER(MeshRenderer)
 
 namespace whermst {
+	FACTORY_REGISTER(MeshRenderer)
 	void MeshRenderer::Update(float dt)
 	{
 		//

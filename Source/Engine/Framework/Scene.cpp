@@ -61,5 +61,14 @@ namespace whermst {
 		actor->_scene = this; 
 		_actors.push_back(std::move(actor));
 	}
+
+	void Scene::Read(const json::value_t& value)
+	{
+		for (auto& actorValue : value["actors"].GetArray()) {
+			auto actor = Factory::Instance().Create<Actor>("Actor");
+			actor->Read(actorValue);
+			AddActor(std::move(actor));
+		}
+	}
 	
 }

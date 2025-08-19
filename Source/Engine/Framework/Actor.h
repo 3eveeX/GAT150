@@ -26,7 +26,7 @@ namespace whermst {
 		virtual void Update(float dt);
 		virtual void Draw(class Renderer& renderer);
 
-		virtual void OnCollision(Actor* other) = 0;
+		virtual void OnCollision(Actor* other) {}
 
 		
 
@@ -41,6 +41,8 @@ namespace whermst {
 
 		template<typename T>
 		std::vector<T*> GetComponents();
+
+		void Read(const json::value_t& value) override;
 	protected:
 		std::vector<std::unique_ptr<Component>> _components;
 		//std::shared_ptr<class Model> _model;

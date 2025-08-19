@@ -1,5 +1,6 @@
 #pragma once
-#include "Core\StringHelper.h"
+#include "Core/StringHelper.h"
+#include "Core/Serializable.h"
 #include <vector>
 #include <memory>
 #include <string>
@@ -8,7 +9,7 @@
 namespace whermst {
 	class Actor;
 	class Game;
-	class Scene {
+	class Scene : public Serializable{
 	public:
 		Scene(Game* game) : _game{ game } {}
 
@@ -28,6 +29,8 @@ namespace whermst {
 			 _actors.clear();
 		 }
 		
+		 void Read(const json::value_t& value) override;
+
 	private:
 		class Game* _game{ nullptr };
 		std::list<std::unique_ptr<Actor>> _actors;

@@ -1,6 +1,6 @@
 #pragma once
 #include "Framework/Component.h"
-
+#include "Framework/Actor.h"
 
 
 class Player : public whermst::Component{
@@ -18,6 +18,6 @@ public:
 	float fireTimer = 0.2f;
 
 	// Inherited via Actor
-	void OnCollision(class Actor* other);
+	void OnCollision(class whermst::Actor* other);
 
 };

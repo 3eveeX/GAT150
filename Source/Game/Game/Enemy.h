@@ -1,5 +1,6 @@
 #pragma once
 #include "Framework/Component.h"
+#include "Framework/Actor.h"
 
 
 
@@ -22,7 +23,7 @@ public:
 
 	void Update(float dt) override;
 
-	void OnCollision(class Actor* other);
+	void OnCollision(whermst::Actor* other);
 
 };
 

@@ -4,7 +4,7 @@
 namespace whermst {
 	class Component : public Object{
 	public:
-		class Actor* owner{ nullptr }; 
+		class Actor* owner{ nullptr };
 	public:
 		Component() = default;
 
