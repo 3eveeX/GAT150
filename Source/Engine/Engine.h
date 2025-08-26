@@ -7,6 +7,7 @@
 #include "Audio/AudioSystem.h"
 #include "Resources/ResourceManager.h"
 #include "Renderer/ParticleSystem.h"
+#include "Physics/Physics.h"
 
 namespace whermst
 {
@@ -25,7 +26,7 @@ namespace whermst
 		InputSystem& GetInput(){ return *_input;}
 		AudioSystem& GetAudio(){ return *_audio;}
 		ParticleSystem& GetPT() { return *_particle; }
-
+		Physics& GetPhysics() { return *_physics; }
 		Time& GetTime(){return _time;}
 
 	
@@ -34,7 +35,7 @@ namespace whermst
 		Engine() = default;
 	private:
 		Time _time;
-
+		std::unique_ptr<class Physics> _physics;
 		std::unique_ptr<class Renderer> _renderer;
 		std::unique_ptr<class InputSystem> _input;
 		std::unique_ptr<class AudioSystem> _audio;

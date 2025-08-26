@@ -3,6 +3,7 @@
 #include "Projectile.h"
 #include "Framework/Actor.h" // Add this include to ensure the Actor class is fully defined before use.
 #include "SpaceGame.h"
+#include "Event/EventManager.h"
 #include "../GamePCH.h"
 
 FACTORY_REGISTER(Player);
@@ -61,7 +62,8 @@ void Player::OnCollision(whermst::Actor* other)
     if (whermst::tolower(other->tag) != whermst::tolower(owner->tag)) {
         whermst::GetEngine().GetAudio().PlaySound("playerdeath");
         owner->destroyed = true;
-        dynamic_cast<SpaceGame*>(owner->_scene->GetGame())->OnPlayerDeath();
+		EVENT_NOTIFY(PlayerDead);
+        //dynamic_cast<SpaceGame*>(owner->_scene->GetGame())->OnPlayerDeath();
     }
 }
 

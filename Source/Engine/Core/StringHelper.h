@@ -51,4 +51,10 @@ namespace whermst {
     private:
         std::ostringstream buffer;
     };
+    inline bool equalsIgnoreCase(const std::string& a, const std::string& b) {
+        if (a.length() != b.length()) return false;
+        return std::equal(a.begin(), a.end(), b.begin(), [](char ac, char bc) {
+            return std::tolower(ac) == std::tolower(bc);
+	});
+	}
 }

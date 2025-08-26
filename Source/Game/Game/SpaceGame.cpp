@@ -3,13 +3,17 @@
 #include "Enemy.h"
 #include "GameData.h"
 #include "../GamePCH.h"
+#include "Event/EventManager.h"
 #include <fstream> // Ensure this include is present for std::ifstream and std::getline  
 
 
 
 bool SpaceGame::Initialize()
 {
-   
+    Logger::Info("Initializing Space Game");
+	OBSERVER_ADD(PlayerDead);
+	OBSERVER_ADD(addPoints);
+
 	_scene = std::make_unique<whermst::Scene>(this);
 	_scene->Load("scene.json");
 
@@ -19,7 +23,6 @@ bool SpaceGame::Initialize()
     whermst::GetEngine().GetAudio().Load("Explode.mp3", "Explode");
     Logger::Info("Loading Sounds");
 
-	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
 	whermst::file::SetCurrentDirectory("Assets");
 	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
     _titleText = std::make_unique<whermst::Text>(whermst::Resources().GetWithID<whermst::Font>("titlefont", "8bitOperatorPlus8-Regular.ttf", 128.0f));
@@ -220,4 +223,20 @@ void SpaceGame::OnPlayerDeath()
 {
 _gameState = GameState::PlayerDead;
 _stateTimer = 2.0f;
+}
+
+void SpaceGame::OnNotify(const whermst::Event& event)
+{
+    if(whermst::equalsIgnoreCase(event.id, "PlayerDead")){
+        OnPlayerDeath();
+        return;
+	}
+    else if (whermst::equalsIgnoreCase(event.id, "addPoints")) {
+		AddPoints(std::get<int>(event.data));
+    }
+   // switch (tolower(event.id))
+    //{
+
+    //}
+	std::cout << "Event received: " << event.id << std::endl;
 }

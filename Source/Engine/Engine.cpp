@@ -23,6 +23,9 @@ namespace whermst
 		_particle = std::make_unique<whermst::ParticleSystem>();
 		_particle->Initialize(5000);
 
+		_physics = std::make_unique<Physics>();
+		_physics->Initialize();
+
 		return true;
 	}
 	void Engine::Update()
@@ -31,16 +34,19 @@ namespace whermst
 		_input->Update();
 		_audio->Update();
 		_particle->Update(_time.GetDeltaTime());
+		_physics->Update(_time.GetDeltaTime());
 	}
 	void Engine::Shutdown()
 	{
 
 		Resources().Clear();
-
-	_particle->Shutdown();
-	_audio->Close();
-	_input->Close();
-	_renderer->CloseWindow();
+		EventManager::Instance().removeAllObservers();
+		Factory::Instance().RemoveAll();
+		_particle->Shutdown();
+		_audio->Close();
+		_input->Close();
+		_renderer->CloseWindow();
+		_physics->Shutdown();
 
 	}
 }

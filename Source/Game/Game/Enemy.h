@@ -4,7 +4,7 @@
 
 
 
-class Enemy : public whermst::Component, public whermst::ICollidable {
+class Enemy : public whermst::Component, public whermst::ICollidable, public whermst::IObserver {
 public:
 	float speed = 200;
 	float fireTime = 0.2f;
@@ -24,5 +24,7 @@ public:
 	void OnCollision(whermst::Actor* other) override;
 
 	void Read(const whermst::json::value_t& value) override;
+
+	void OnNotify(const whermst::Event& event) override;
 };
 

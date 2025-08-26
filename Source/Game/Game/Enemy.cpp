@@ -9,6 +9,7 @@ FACTORY_REGISTER(Enemy);
 
 void Enemy::Start()
 {
+	whermst::EventManager::Instance().AddObserver("PlayerDead", *this);
 	_rigidBody = owner->GetComponent<whermst::Rigidbody>();
 	fireTimer = fireTime;
 }
@@ -84,7 +85,7 @@ void Enemy::OnCollision(whermst::Actor* other)
 		if(hitPoints == 0){
 		whermst::GetEngine().GetAudio().PlaySound("Explode");
 		owner -> destroyed = true;
-		owner->_scene->GetGame()->AddPoints(100);
+		whermst::EventManager::Instance().Notify(whermst::Event{ "addPoints", 100 });
 		for (int i = 0; i < 100; i++) {
 			whermst::Particle particle;
 			particle.position = owner->transform.position;
@@ -114,4 +115,11 @@ void Enemy::Read(const whermst::json::value_t& value)
 	JSON_READ(value, speed);
 	whermst::json::Read(value, "hp", hitPoints);
 	JSON_READ(value, fireTime);
+}
+
+void Enemy::OnNotify(const whermst::Event& event)
+{
+	if(whermst::equalsIgnoreCase(event.id, "PlayerDead")) {
+		owner->destroyed = true;
+	}
 }

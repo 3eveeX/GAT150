@@ -3,8 +3,9 @@
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
 #include "Renderer/ParticleSystem.h"
+#include "Event/Observer.h"
 
-class SpaceGame : public whermst::Game {
+class SpaceGame : public whermst::Game, public whermst::IObserver {
 public:
 	enum class GameState {
 		Initialize,
@@ -29,6 +30,9 @@ public:
 	void Draw(class whermst::Renderer& renderer) override;
 
 	void OnPlayerDeath();
+
+	// Inherited via IObserver
+	void OnNotify(const whermst::Event& event) override;
 
 private:
 	GameState _gameState = GameState::Initialize;

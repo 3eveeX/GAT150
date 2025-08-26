@@ -4,7 +4,7 @@
 
 
 
-class Projectile : public whermst::Component {
+class Projectile : public whermst::Component, public whermst::ICollidable {
 public:
 	float speed;
 public:

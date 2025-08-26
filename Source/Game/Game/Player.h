@@ -3,7 +3,7 @@
 #include "Framework/Actor.h"
 
 
-class Player : public whermst::Component{
+class Player : public whermst::Component, public whermst::ICollidable{
 public:
 	Player() = default;
 	CLASS_PROTOTYPE(Player)
