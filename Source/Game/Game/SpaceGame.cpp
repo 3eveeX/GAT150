@@ -73,7 +73,7 @@ void SpaceGame::Update(float dt)
     case SpaceGame::GameState::Game:
         
         _enemySpawnTimer -= dt;
-		Logger::Info("Enemy Spawn Timer: {}", std::to_string(_enemySpawnTimer));
+		
         if (_enemySpawnTimer <= 0) {
             _enemySpawnTimer = 4.0f;
             auto player = _scene->GetActorByName("Player");

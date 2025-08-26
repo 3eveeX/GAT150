@@ -37,31 +37,18 @@ void Enemy::Update(float dt)
 	
 	owner->transform.position.x = whermst::math::wrap(owner->transform.position.x, 0.0f, (float)whermst::GetEngine().GetRenderer().GetWidth());
 	owner->transform.position.y = whermst::math::wrap(owner->transform.position.y, 0.0f, (float)whermst::GetEngine().GetRenderer().GetHeight());
-	 /*
+	 
 	fireTimer -= dt;
 	if (fireTimer <= 0) {
 		fireTimer = fireTime;
-		std::shared_ptr<whermst::Mesh> model = std::make_shared<whermst::Mesh>(GameData::projectilePoints, whermst::vec3{ 1.0f, 1.0f, 0.0f });
-		whermst::Transform owner->transform{ this->owner->transform.position, this->owner->transform.rotation, 0.5f };
-		auto projectile = std::make_unique<Projectile>(owner->transform);
-		projectile->speed = 250.0f;
-		projectile->lifespan = 1.5f;
-		projectile->name = "Projectile";
-		projectile->tag = "enemy";
-		projectile->_texture = whermst::Resources().Get<whermst::Texture>("bullet.png", whermst::GetEngine().GetRenderer());
-		auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
-		spriteRenderer->textureName = "bullet.png";
-		auto rb = std::make_unique<whermst::Rigidbody>();
-		auto collider = std::make_unique<whermst::CircleCollider2d>();
-		collider->radius = 10;
-		projectile->AddComponent(std::move(collider));
-		projectile->AddComponent(std::move(rb));
-		projectile->AddComponent(std::move(spriteRenderer));
+        whermst::Transform projectileTransform{ this->owner->transform.position, this->owner->transform.rotation, 0.5f };
+        auto projectile = whermst::Instantiate<whermst::Actor>("EnemyProjectile");
+		projectile->transform = projectileTransform;
+		projectile->Actor::GetComponent<whermst::Rigidbody>()->velocity = whermst::vec2{ 1, 0 }.rotate(whermst::math::degToRad(owner->transform.rotation)) * projectile->Actor::GetComponent<Projectile>()->speed;
 
-		_scene->AddActor(std::move(projectile));
+        owner->_scene->AddActor(std::move(projectile), true);
+		
 	}
-	Actor::Update(dt);
-	*/
 }
 
 void Enemy::OnCollision(whermst::Actor* other)
