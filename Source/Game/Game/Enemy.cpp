@@ -15,12 +15,12 @@ void Enemy::Start()
 
 void Enemy::Update(float dt)
 {
-	/*
+	
 
-	Player* player = _scene->GetActorByName<Player>("Player");
+	Player* player = owner->_scene->GetActorByName<Player>("Player");
 	if (player) {
 		whermst::vec2 direction{ 0, 0 };
-		direction = player->owner->owner->transform.position - owner->transform.position;
+		direction = player->owner->transform.position - owner->transform.position;
 
 
 		direction.Normalized();
@@ -28,7 +28,7 @@ void Enemy::Update(float dt)
 		float angle = whermst::vec2::SignedAngleBetween(forward, direction);
 		owner->transform.rotation += whermst::math::radToDeg(angle * dt);
 	}
-	*/
+	
 	whermst::vec2 force = whermst::vec2{1, 0}.rotate(whermst::math::degToRad(owner->transform.rotation)) * speed;
 	//velocity += force * dt;
 	if (_rigidBody) {

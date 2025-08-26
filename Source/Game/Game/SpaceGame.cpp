@@ -71,54 +71,49 @@ void SpaceGame::Update(float dt)
     }
         break;
     case SpaceGame::GameState::Game:
-        /*
+        
         _enemySpawnTimer -= dt;
+		Logger::Info("Enemy Spawn Timer: {}", std::to_string(_enemySpawnTimer));
         if (_enemySpawnTimer <= 0) {
             _enemySpawnTimer = 4.0f;
-            Player* player = _scene->GetActorByName<Player>("Player");
+            auto player = _scene->GetActorByName("Player");
             if (player) {
-
+                
                 whermst::vec2 position = player->transform.position + whermst::random::onUnitCircle() * whermst::random::getReal(200.0f, 500.0f);
 
-                std::shared_ptr<whermst::Mesh> enemyModel = std::make_shared<whermst::Mesh>(GameData::enemyPoints);
+               
                 whermst::Transform transform{ position, whermst::random::getReal(0.0f, 360.0f), 1.0f };
-                std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(transform);// , whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer()));
-                ///auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
-                enemy->hitPoints = whermst::random::getInt(1, 3); // Random hit points between 1 and 3
-                auto meshRenderer = std::make_unique<whermst::MeshRenderer>();
-                meshRenderer->meshName = "meshes/Enemy.txt";
-                enemy->AddComponent(std::move(meshRenderer));
-                if (enemy->hitPoints == 3) {
-                  //  spriteRenderer->textureName = "enemy-3life.png";
-                    //enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-3life.png", whermst::GetEngine().GetRenderer());
-                    enemy->fireTime = 1.0f;
-                    enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 100.0f;
+                int enemyType = whermst::random::getInt(1, 3);
+                switch (enemyType) {
+                case 1:
+                {
+                    auto enemy = whermst::Instantiate<whermst::Actor>("Enemy1");
+                    enemy->transform = transform;
+                    _scene->AddActor(std::move(enemy), true);
                 }
-                else if (enemy->hitPoints == 2) {
-                  //  spriteRenderer->textureName = "enemy-2life.png";
-                    //enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-2life.png", whermst::GetEngine().GetRenderer());
-                    enemy->fireTime = 2.0f;
-                    enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 50.0f;
+					break;
+                case 2:
+                {
+                    auto enemy = whermst::Instantiate<whermst::Actor>("Enemy2");
+                    enemy->transform = transform;
+                    _scene->AddActor(std::move(enemy), true);
                 }
-                else if (enemy->hitPoints == 1) {
-                   // spriteRenderer->textureName = "enemy-1life.png";
-                    //enemy->_texture = whermst::Resources().Get<whermst::Texture>("enemy-1life.png", whermst::GetEngine().GetRenderer());
-                    enemy->fireTime = 4.0f;
-                    enemy->speed = 1.0f  + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
+                    break;
+                case 3:
+                {
+                    auto enemy = whermst::Instantiate<whermst::Actor>("Enemy3");
+                    enemy->transform = transform;
+                    _scene->AddActor(std::move(enemy), true);
                 }
-                auto rb = std::make_unique<whermst::Rigidbody>();
-                rb->damping = 0.9f;
-                enemy->AddComponent(std::move(rb));
-                  enemy->tag = "Enemy";
-                  auto collider = std::make_unique<whermst::CircleCollider2d>();
-                  collider->radius = 40;
-                  enemy->AddComponent(std::move(collider));
+                    break;
+                default:
+                    break;
+                }
 
-                 // enemy->AddComponent(std::move(spriteRenderer));
-                  _scene->AddActor(std::move(enemy));
+                  
             }
         }
-          */
+         
         break;
     case SpaceGame::GameState::PlayerDead:
         _stateTimer -= dt;

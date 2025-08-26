@@ -5,8 +5,8 @@
       "tag": "player",
       "transform": {
         "position": [
-          640,
-          512
+          960,
+          768
         ],
         "rotation": 0,
         "scale": 2
@@ -37,14 +37,13 @@
       "name": "PlayerProjectile",
       "tag": "player",
       "lifespan": 2,
-      "speed": 200,
       "transform": {
         "scale": 1
       },
       "components": [
         {
           "type": "Projectile",
-          "speed": 300
+          "speed": 1500
         },
         {
           "type": "SpriteRenderer",
@@ -53,7 +52,7 @@
         },
         {
           "type": "CircleCollider2d",
-          "radius": 40
+          "radius": 10
         },
         {
           "type": "Rigidbody",
@@ -71,7 +70,7 @@
       "components": [
         {
           "type": "Projectile",
-          "speed": 300000
+          "speed": 800
         },
         {
           "type": "SpriteRenderer",
@@ -80,36 +79,120 @@
         },
         {
           "type": "CircleCollider2d",
-          "radius": 40
+          "radius": 10
         },
         {
           "type": "Rigidbody",
           "damping": 0
         }
       ]
-    }
-    
-  ],
-  "actors": [
+    },
     {
-      "name": "sprite",
-      "tag": "background",
-      "persistent": true,
+      "name": "Enemy1",
+      "tag": "enemy",
       "transform": {
-        "position": [
-          960,
-          768
-        ],
-        "rotation": 0,
         "scale": 2
       },
       "components": [
         {
+          "type": "Enemy",
+          "speed": 75,
+          "hp": 1,
+          "fireTime": 1.5
+        },
+        {
           "type": "SpriteRenderer",
           "active": true,
-          "textureName": "space-background.jpg"
+          "textureName": "Enemy-1life.png"
+        },
+        {
+          "type": "Rigidbody",
+          "damping": 0.9
+        },
+        {
+          "type": "CircleCollider2d",
+          "radius": 40
+        }
+      ]
+    },
+    {
+      "name": "Enemy2",
+      "tag": "enemy",
+      "transform": {
+        "scale": 2
+      },
+      "components": [
+        {
+          "type": "Enemy",
+          "speed": 150,
+          "hp": 2,
+          "fireTime": 1
+        },
+        {
+          "type": "SpriteRenderer",
+          "active": true,
+          "textureName": "Enemy-2life.png"
+        },
+        {
+          "type": "Rigidbody",
+          "damping": 0.9
+        },
+        {
+          "type": "CircleCollider2d",
+          "radius": 40
+        }
+      ]
+    },
+    {
+      "name": "Enemy3",
+      "tag": "enemy",
+      "transform": {
+        "scale": 2
+      },
+      "components": [
+        {
+          "type": "Enemy",
+          "speed": 300,
+          "hp": 3,
+          "fireTime": 0.5
+        },
+        {
+          "type": "SpriteRenderer",
+          "active": true,
+          "textureName": "Enemy-3life.png"
+        },
+        {
+          "type": "Rigidbody",
+          "damping": 0.9
+        },
+        {
+          "type": "CircleCollider2d",
+          "radius": 40
         }
       ]
     }
-  ]
+
+    ],
+    "actors": [
+      {
+        "name": "sprite",
+        "tag": "background",
+        "persistent": true,
+        "transform": {
+          "position": [
+            960,
+            768
+          ],
+          "rotation": 0,
+          "scale": 2
+        },
+        "components": [
+          {
+            "type": "SpriteRenderer",
+            "active": true,
+            "textureName": "space-background.jpg"
+          }
+        ]
+      }
+    ]
 }
