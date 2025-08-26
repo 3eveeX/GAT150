@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 	// set the current directory to the Assets folder
     whermst::file::SetCurrentDirectory("Assets");
 	whermst::Factory::Instance().Register<whermst::SpriteRenderer>("SpriteRenderer");
-
+    
 	auto spriteRenderer = whermst::Factory::Instance().Create<whermst::SpriteRenderer>("SpriteRenderer");
 	spriteRenderer->name = "MySpriteRenderer";
 
@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
         std::cout << argv[i] << std::endl;
      
     }
-    return 0;
+  
     //initialize engine 
 	whermst::GetEngine().Initialize();
 
@@ -42,38 +42,16 @@ int main(int argc, char* argv[]) {
 	whermst::Font* font = new whermst::Font();
 	font->Load("8bitOperatorPlus8-Regular.ttf", 20);
 
-    //initialize Text
-    //whermst::Text* text = new whermst::Text(font);
-    //text->Create(whermst::GetEngine().GetRenderer(), "Hello World", whermst::vec3{1, 1, 1});
-
-    //initialize image
-	/*std::shared_ptr<whermst::Texture> texture = std::make_shared<whermst::Texture>();
-    texture->Load("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());*/
-	//auto texture = whermst::Resources().Get<whermst::Texture>("Eevee-Transparent-PNG.png", whermst::GetEngine().GetRenderer());
+    
 
     SDL_Event e;
     bool quit = false;
 
-    //vec2 v(290, 300);
-
-    whermst::GetEngine().GetAudio().Load("test.wav");
-    whermst::GetEngine().GetAudio().Load("bass.wav", "bass");
-    whermst::GetEngine().GetAudio().Load("clap.wav", "clap");
-    whermst::GetEngine().GetAudio().Load("close-hat.wav", "close-hat");
-    whermst::GetEngine().GetAudio().Load("cowbell.wav", "cowbell");
-    whermst::GetEngine().GetAudio().Load("open-hat.wav", "open-hat");
-    whermst::GetEngine().GetAudio().Load("snare.wav", "snare");
-    whermst::GetEngine().GetAudio().Load("Laser.mp3", "laser");
-    whermst::GetEngine().GetAudio().Load("explode.mp3", "Explode");
-    whermst::GetEngine().GetAudio().Load("BGM.mp3", "bgm");
-    whermst::GetEngine().GetAudio().Load("enemyHit.mp3", "enemyHit");
-    whermst::GetEngine().GetAudio().Load("PlayerDeath.mp3", "playerdeath");
+    
 
 
-    //std::vector<whermst::vec2> points;
-    //std::vector<std::vector<whermst::vec2>> confirmed;
-    whermst::GetEngine().GetAudio().PlaySound("bgm");
-    std::cout << "Playing BGM test" << std::endl;
+    
+   
   
     //MAIN LOOP
     while (!quit) {
@@ -92,14 +70,7 @@ int main(int argc, char* argv[]) {
         if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_ESCAPE)) {
             quit = true;
         }
-       /* if (input.GetKeyDown(SDL_SCANCODE_A)) audio.PlaySound("bass");
-        if (input.GetKeyDown(SDL_SCANCODE_S)) audio.PlaySound("clap");
-        if (input.GetKeyDown(SDL_SCANCODE_D)) audio.PlaySound("close-hat");
-        if (input.GetKeyDown(SDL_SCANCODE_F)) audio.PlaySound("cowbell");
-        if (input.GetKeyDown(SDL_SCANCODE_G)) audio.PlaySound("open-hat");
-        if (input.GetKeyDown(SDL_SCANCODE_H)) audio.PlaySound("snare");*/
-		//if (input.GetKeyDown(SDL_SCANCODE_A)) transform.rotation -= whermst::math::degToRad(45 * time.GetDeltaTime());
-		//if (input.GetKeyDown(SDL_SCANCODE_D)) transform.rotation += whermst::math::degToRad(45 * time.GetDeltaTime());
+       
         
         float speed = 200;
         whermst::vec2 direction{ 0, 0 };
@@ -111,9 +82,6 @@ int main(int argc, char* argv[]) {
 
         if (direction.LengthSqr() > 0) { 
             direction = direction.Normalized();
-            //for (auto& actor : actors) {
-              //  actor -> GetTransform().position += (direction * speed) * time.GetDeltaTime();
-           // }
         
         }
 

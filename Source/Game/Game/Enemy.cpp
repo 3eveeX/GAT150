@@ -7,6 +7,12 @@
 
 FACTORY_REGISTER(Enemy);
 
+void Enemy::Start()
+{
+	_rigidBody = owner->GetComponent<whermst::Rigidbody>();
+	fireTimer = fireTime;
+}
+
 void Enemy::Update(float dt)
 {
 	/*
@@ -14,31 +20,30 @@ void Enemy::Update(float dt)
 	Player* player = _scene->GetActorByName<Player>("Player");
 	if (player) {
 		whermst::vec2 direction{ 0, 0 };
-		direction = player->owner->transform.position - transform.position;
+		direction = player->owner->owner->transform.position - owner->transform.position;
 
 
 		direction.Normalized();
-		whermst::vec2 forward = whermst::vec2{ 1, 0 }.rotate(whermst::math::degToRad(transform.rotation));
+		whermst::vec2 forward = whermst::vec2{ 1, 0 }.rotate(whermst::math::degToRad(owner->transform.rotation));
 		float angle = whermst::vec2::SignedAngleBetween(forward, direction);
-		transform.rotation += whermst::math::radToDeg(angle * dt);
+		owner->transform.rotation += whermst::math::radToDeg(angle * dt);
 	}
-
-	whermst::vec2 force = whermst::vec2{1, 0}.rotate(whermst::math::degToRad(transform.rotation)) * speed;
+	*/
+	whermst::vec2 force = whermst::vec2{1, 0}.rotate(whermst::math::degToRad(owner->transform.rotation)) * speed;
 	//velocity += force * dt;
-	auto* rb = GetComponent<whermst::Rigidbody>();
-	if (rb) {
-		rb->velocity += force * dt;
+	if (_rigidBody) {
+		_rigidBody->velocity += force * dt;
 	}
 	
-
-	transform.position.x = whermst::math::wrap(transform.position.x, 0.0f, (float)whermst::GetEngine().GetRenderer().GetWidth());
-	transform.position.y = whermst::math::wrap(transform.position.y, 0.0f, (float)whermst::GetEngine().GetRenderer().GetHeight());
+	owner->transform.position.x = whermst::math::wrap(owner->transform.position.x, 0.0f, (float)whermst::GetEngine().GetRenderer().GetWidth());
+	owner->transform.position.y = whermst::math::wrap(owner->transform.position.y, 0.0f, (float)whermst::GetEngine().GetRenderer().GetHeight());
+	 /*
 	fireTimer -= dt;
 	if (fireTimer <= 0) {
 		fireTimer = fireTime;
 		std::shared_ptr<whermst::Mesh> model = std::make_shared<whermst::Mesh>(GameData::projectilePoints, whermst::vec3{ 1.0f, 1.0f, 0.0f });
-		whermst::Transform transform{ this->transform.position, this->transform.rotation, 0.5f };
-		auto projectile = std::make_unique<Projectile>(transform); // , whermst::Resources().Get<whermst::Texture>("bullet.png", whermst::GetEngine().GetRenderer()));
+		whermst::Transform owner->transform{ this->owner->transform.position, this->owner->transform.rotation, 0.5f };
+		auto projectile = std::make_unique<Projectile>(owner->transform);
 		projectile->speed = 250.0f;
 		projectile->lifespan = 1.5f;
 		projectile->name = "Projectile";
@@ -113,4 +118,13 @@ void Enemy::OnCollision(whermst::Actor* other)
 		}
 		}
 	}
+}
+
+void Enemy::Read(const whermst::json::value_t& value)
+{
+	Object::Read(value);
+
+	JSON_READ(value, speed);
+	whermst::json::Read(value, "hp", hitPoints);
+	JSON_READ(value, fireTime);
 }

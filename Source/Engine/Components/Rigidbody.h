@@ -8,8 +8,11 @@ namespace whermst {
 		vec2 velocity{ 0, 0 };
 		float damping{ 0 };
 	public:
+		CLASS_PROTOTYPE(Rigidbody)
 
 		void Update(float dt) override;
+
+		void Read(const json::value_t& value) override;
 		
 	};
 }

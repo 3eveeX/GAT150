@@ -6,17 +6,17 @@
 
 class Projectile : public whermst::Component {
 public:
-	float speed = 200;
+	float speed;
 public:
 	Projectile() = default;
-	/*Projectile(const whermst::Transform& transform) :
-		Actor{ transform }
-	{}*/
+	CLASS_PROTOTYPE(Projectile)
+	
 
 	void Update(float dt) override;
 
 
 	// Inherited via Actor
 	void OnCollision(whermst::Actor* other);
+	void Read(const whermst::json::value_t& value) override;
 
 };

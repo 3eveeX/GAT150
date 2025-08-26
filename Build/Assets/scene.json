@@ -1,16 +1,113 @@
 {
+  "prototypes": [
+    {
+      "name": "Player",
+      "tag": "player",
+      "transform": {
+        "position": [
+          640,
+          512
+        ],
+        "rotation": 0,
+        "scale": 2
+      },
+      "components": [
+        {
+          "type": "Player",
+          "speed": 300,
+          "rotateRate": 180,
+          "fireTime": 0.5
+        },
+        {
+          "type": "SpriteRenderer",
+          "active": true,
+          "textureName": "player.png"
+        },
+        {
+          "type": "Rigidbody",
+          "damping": 0.9
+        },
+        {
+          "type": "CircleCollider2d",
+          "radius": 40
+        }
+      ]
+    },
+    {
+      "name": "PlayerProjectile",
+      "tag": "player",
+      "lifespan": 2,
+      "speed": 200,
+      "transform": {
+        "scale": 1
+      },
+      "components": [
+        {
+          "type": "Projectile",
+          "speed": 300
+        },
+        {
+          "type": "SpriteRenderer",
+          "active": true,
+          "textureName": "bullet.png"
+        },
+        {
+          "type": "CircleCollider2d",
+          "radius": 40
+        },
+        {
+          "type": "Rigidbody",
+          "damping": 0
+        }
+      ]
+    },
+    {
+      "name": "EnemyProjectile",
+      "tag": "enemy",
+      "lifespan": 2,
+      "transform": {
+        "scale": 1
+      },
+      "components": [
+        {
+          "type": "Projectile",
+          "speed": 300000
+        },
+        {
+          "type": "SpriteRenderer",
+          "active": true,
+          "textureName": "bullet.png"
+        },
+        {
+          "type": "CircleCollider2d",
+          "radius": 40
+        },
+        {
+          "type": "Rigidbody",
+          "damping": 0
+        }
+      ]
+    }
+    
+  ],
   "actors": [
     {
       "name": "sprite",
+      "tag": "background",
+      "persistent": true,
       "transform": {
-        "position": [ 400, 300 ],
+        "position": [
+          960,
+          768
+        ],
         "rotation": 0,
         "scale": 2
       },
       "components": [
         {
           "type": "SpriteRenderer",
-          "textureName": "Assets/player.png"
+          "active": true,
+          "textureName": "space-background.jpg"
         }
       ]
     }

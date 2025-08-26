@@ -6,6 +6,7 @@
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
 #include "Resources/ResourceManager.h"
+#include "Renderer/ParticleSystem.h"
 
 namespace whermst
 {

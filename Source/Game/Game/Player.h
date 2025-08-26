@@ -6,18 +6,19 @@
 class Player : public whermst::Component{
 public:
 	Player() = default;
-	/*Player(const whermst::Transform& transform) :
-		Actor{ transform }
-	{}*/
+	CLASS_PROTOTYPE(Player)
+	
 
 	void Update(float dt) override;
 
-	float speed = 500.0f;
-	float rotateRate = 180.0f;
-	float fireTime = 0.2f;
-	float fireTimer = 0.2f;
+	float speed;
+	float rotateRate;
+	float fireTime;
+	float fireTimer;
+
+
 
 	// Inherited via Actor
 	void OnCollision(class whermst::Actor* other);
-
+	void Read(const whermst::json::value_t& value) override;
 };

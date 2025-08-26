@@ -1,10 +1,16 @@
 #include "EnginePCH.h"
 #include "SpriteRenderer.h"
 #include "Renderer/Renderer.h"
+#include "Engine.h"
 
 
 namespace whermst {
 	FACTORY_REGISTER(SpriteRenderer)
+
+		void SpriteRenderer::Start()
+	{
+		_texture = Resources().Get<Texture>(textureName, GetEngine().GetRenderer());
+	}
 	void SpriteRenderer::Update(float dt)
 	{
 		//
@@ -12,9 +18,8 @@ namespace whermst {
 
 	void SpriteRenderer::Draw(Renderer& renderer)
 	{
-		auto texture = Resources().Get<Texture>(textureName, renderer).get();
-			if (texture) {
-				renderer.DrawTexture(*texture,
+			if (_texture) {
+				renderer.DrawTexture(*_texture,
 					owner->transform.position.x,
 					owner->transform.position.y,
 					owner->transform.rotation,

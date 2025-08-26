@@ -13,6 +13,9 @@ namespace whermst {
 	public:
 		std::shared_ptr<Texture> _texture{ nullptr };
 		std::string tag;
+
+		bool persistent{ false }; 
+
 		bool destroyed{ false };
 		float lifespan{ 0.0f };
 		Transform transform;
@@ -22,11 +25,16 @@ namespace whermst {
 		Actor(const Transform& transform) :
 			transform{ transform }
 		{}
+		Actor(const Actor& other);
+		CLASS_PROTOTYPE(Actor)
+
+			virtual void Start();
+			virtual void Destroyed();
 
 		virtual void Update(float dt);
 		virtual void Draw(class Renderer& renderer);
 
-		virtual void OnCollision(Actor* other) {}
+		virtual void OnCollision(Actor* other);
 
 		
 

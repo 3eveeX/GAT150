@@ -9,4 +9,11 @@ namespace whermst {
 		owner->transform.position += velocity * dt;
 		velocity *= (1.0f - damping * dt);
 	}
+	void Rigidbody::Read(const json::value_t& value)
+	{
+		Object::Read(value);
+		JSON_READ(value, damping);
+		JSON_READ(value, velocity);
+		
+	}
 }

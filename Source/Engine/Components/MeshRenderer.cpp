@@ -19,4 +19,16 @@ namespace whermst {
 		}
 	}
 
+	void MeshRenderer::Read(const json::value_t& value)
+	{
+		Object::Read(value);
+		JSON_READ(value, meshName);
+		if (meshName.empty()) {
+			Logger::Error("MeshRenderer: Mesh name is empty.");
+		}
+		if (!Resources().Get<Mesh>(meshName)) {
+			Logger::Error("MeshRenderer: Mesh '{}' not found in resources.", meshName);
+		}
+	}
+
 }

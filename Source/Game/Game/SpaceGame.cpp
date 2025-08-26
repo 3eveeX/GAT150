@@ -11,10 +11,14 @@ bool SpaceGame::Initialize()
 {
    
 	_scene = std::make_unique<whermst::Scene>(this);
+	_scene->Load("scene.json");
 
-	whermst::json::document_t document;
-	whermst::json::Load("scene.json", document);
-	_scene->Read(document);
+    whermst::GetEngine().GetAudio().Load("BGM.mp3", "bgm");
+	whermst::GetEngine().GetAudio().Load("Laser.mp3", "laser");
+	whermst::GetEngine().GetAudio().Load("EnemyHit.mp3", "enemyHit");
+    whermst::GetEngine().GetAudio().Load("Explode.mp3", "Explode");
+    Logger::Info("Loading Sounds");
+
 	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
 	whermst::file::SetCurrentDirectory("Assets");
 	std::cout << whermst::file::GetCurrentDirectory() << std::endl;
@@ -47,7 +51,7 @@ void SpaceGame::Update(float dt)
         _gameState = SpaceGame::GameState::Title;
         break;
     case SpaceGame::GameState::Title:
-        _scene->RemoveAllActors();
+        //_scene->RemoveAllActors();
         if (whermst::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_SPACE)) {
             _gameState = SpaceGame::GameState::StartGame;
         }
@@ -59,33 +63,12 @@ void SpaceGame::Update(float dt)
         break;
     case SpaceGame::GameState::StartRound:
     {
-        /*
         _scene->RemoveAllActors();
-        whermst::Transform transform{ whermst::vec2{whermst::GetEngine().GetRenderer().GetWidth() * 0.5f, whermst::GetEngine().GetRenderer().GetHeight() * 0.5f}, 0, 1 };
-        auto player = std::make_unique<Player>(transform); // , whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer()));
-        player->speed = 500.0f;
-        player->rotateRate = 180.0f;
+        auto player = whermst::Instantiate<whermst::Actor>("Player");
+        _scene->AddActor(std::move(player), true);
 
-        player->fireTime = 0.5f;
-        player->fireTimer = player->fireTime;
-        player->name = "Player";
-        player->tag = "Player";
-        auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
-        spriteRenderer->textureName = "player.png";
-        player->_texture = whermst::Resources().Get<whermst::Texture>("player.png", whermst::GetEngine().GetRenderer());
-        auto rb = std::make_unique<whermst::Rigidbody>();
-
-        auto collider = std::make_unique<whermst::CircleCollider2d>();
-        collider->radius = 40;
-        player->AddComponent(std::move(collider));
-
-        rb->damping = 0.9f;
-        player->AddComponent(std::move(rb));
-        player->AddComponent(std::move(spriteRenderer));
-        _scene->AddActor(std::move(player));
+        _gameState = GameState::Game;
     }
-    _gameState = SpaceGame::GameState::Game;
-    */
         break;
     case SpaceGame::GameState::Game:
         /*
@@ -181,8 +164,8 @@ void SpaceGame::Update(float dt)
 
     }
     _scene->Update(whermst::GetEngine().GetTime().GetDeltaTime());
-    }
 }
+
 
 
 
@@ -192,6 +175,7 @@ void SpaceGame::Shutdown()
 
 void SpaceGame::Draw(whermst::Renderer& renderer)
 {  
+    _scene->Draw(renderer);
     if (_gameState == GameState::Title) {  
         _titleText->Create(renderer, "Unnamed Space Game", whermst::vec3{ 1, 1, 1 });  
         _titleText->Draw(renderer, 200, 20);  
@@ -235,7 +219,6 @@ void SpaceGame::Draw(whermst::Renderer& renderer)
         _livesText->Draw(renderer, renderer.GetWidth() - 700.0f, 20);
     }
     whermst::GetEngine().GetPT().Draw(renderer);
-    _scene->Draw(renderer);
 }
 
 void SpaceGame::OnPlayerDeath()

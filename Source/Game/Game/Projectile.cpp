@@ -8,21 +8,14 @@ FACTORY_REGISTER(Projectile);
 
 void Projectile::Update(float dt)
 {
-	/*
-	whermst::vec2 force = whermst::vec2{ 1, 0 }.rotate(whermst::math::degToRad(transform.rotation)) * speed;
-	//velocity = force;
-	auto* rb = GetComponent<whermst::Rigidbody>();
-	if (rb) {
-		rb->velocity = force;
-	}
-
-	transform.position.x = whermst::math::wrap(transform.position.x, 0.0f, (float)whermst::GetEngine().GetRenderer().GetWidth());
-	transform.position.y = whermst::math::wrap(transform.position.y, 0.0f, (float)whermst::GetEngine().GetRenderer().GetHeight());
+	
+	owner->transform.position.x = whermst::math::wrap(owner->transform.position.x, 0.0f, (float)whermst::GetEngine().GetRenderer().GetWidth());
+	owner->transform.position.y = whermst::math::wrap(owner->transform.position.y, 0.0f, (float)whermst::GetEngine().GetRenderer().GetHeight());
 
 	whermst::Particle particle;
-	particle.position = transform.position;
+	particle.position = owner->transform.position;
 	particle.velocity = whermst::random::onUnitCircle() * whermst::random::getReal(10.0f, 200.0f);
-	if (whermst::tolower(tag) == whermst::tolower("enemy")){
+	if (whermst::tolower(owner->tag) == whermst::tolower("enemy")){
 		particle.colour = whermst::vec3{ 1.0f, 0, 0 };
 }															
 	else {
@@ -31,8 +24,8 @@ void Projectile::Update(float dt)
 	particle.lifespan = 0.2f;
 	particle.active = true;
 	whermst::GetEngine().GetPT().AddParticle(particle);
-	Actor::Update(dt);
-	*/
+	
+	
 }
 
 void Projectile::OnCollision(whermst::Actor* other)
@@ -40,4 +33,10 @@ void Projectile::OnCollision(whermst::Actor* other)
 	if (whermst::tolower(other->tag) != whermst::tolower(owner->tag)) {
 		owner->destroyed = true;
 	}
+}
+
+void Projectile::Read(const whermst::json::value_t& value)
+{
+	Object::Read(value);
+	JSON_READ(value, speed);
 }

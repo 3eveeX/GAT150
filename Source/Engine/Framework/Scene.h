@@ -9,13 +9,17 @@
 namespace whermst {
 	class Actor;
 	class Game;
-	class Scene : public Serializable{
+	class Scene : public ISerializable{
 	public:
 		Scene(Game* game) : _game{ game } {}
 
-		void Update(float dt);
-		void Draw(class Renderer& renderer);
-		void AddActor(std::unique_ptr< Actor> actor);
+		bool Load(const std::string& sceneName);
+		 void Read(const json::value_t& value) override;
+		
+		 void Update(float dt);
+		
+		 void Draw(class Renderer& renderer);
+		 void AddActor(std::unique_ptr< Actor> actor, bool start);
 
 		  template <typename T = Actor>
 		  T* GetActorByName(const std::string& name);
@@ -25,11 +29,17 @@ namespace whermst {
 		 std::vector<T*> GetActorsByTag(const std::string& tag);
 
 		 class Game* GetGame() const { return _game; }
-		 void RemoveAllActors() {
-			 _actors.clear();
+		 void RemoveAllActors(bool force = false) {
+			 for (auto iter = _actors.begin(); iter != _actors.end();) {
+				 if (!((*iter)->persistent) || force) {
+					 iter = _actors.erase(iter);
+				 }
+				 else {
+					 iter++;
+				 }
+			 }
 		 }
 		
-		 void Read(const json::value_t& value) override;
 
 	private:
 		class Game* _game{ nullptr };
