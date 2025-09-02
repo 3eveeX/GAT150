@@ -88,8 +88,8 @@ namespace whermst{
 	{
 		Object::Read(value);
 		JSON_READ(value, tag);
-		JSON_READ(value, lifespan, false);
-		JSON_READ(value, persistent, false);
+		whermst::json::Read(value, "lifespan", lifespan, false);
+		whermst::json::Read(value, "persistent", persistent, false);
 		if (JSON_HAS(value, transform)) {
 			transform.Read(JSON_GET(value, transform));
 		}

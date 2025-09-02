@@ -2,6 +2,6 @@
 
 void whermst::Object::Read(const json::value_t& value)
 {
-	JSON_READ(value, name, false);
-	JSON_READ(value, active, false);
+	whermst::json::Read(value, "name", name, false);
+	whermst::json::Read(value, "active", active, false);
 }

@@ -14,8 +14,8 @@
       "components": [
         {
           "type": "Player",
-          "speed": 300,
-          "rotateRate": 180,
+          "speed": 1000,
+          "rotateRate": 30,
           "fireTime": 0.5
         },
         {
@@ -25,11 +25,11 @@
         },
         {
           "type": "Rigidbody",
-          "damping": 0.9
+          "gravityScale": 0
         },
         {
           "type": "CircleCollider2d",
-          "radius": 40
+          "radius": 30
         }
       ]
     },
@@ -56,7 +56,8 @@
         },
         {
           "type": "Rigidbody",
-          "damping": 0
+          "gravityScale": 0,
+            "isSensor": true
         }
       ]
     },
@@ -83,7 +84,8 @@
         },
         {
           "type": "Rigidbody",
-          "damping": 0
+          "gravityScale": 0,
+          "isSensor": true
         }
       ]
     },
@@ -96,7 +98,7 @@
       "components": [
         {
           "type": "Enemy",
-          "speed": 75,
+          "speed": 0,
           "hp": 1,
           "fireTime": 1.5
         },
@@ -107,11 +109,11 @@
         },
         {
           "type": "Rigidbody",
-          "damping": 0.9
+          "gravityScale": 0
         },
         {
           "type": "CircleCollider2d",
-          "radius": 40
+          "radius": 30
         }
       ]
     },
@@ -124,7 +126,7 @@
       "components": [
         {
           "type": "Enemy",
-          "speed": 150,
+          "speed": 0,
           "hp": 2,
           "fireTime": 1
         },
@@ -135,11 +137,11 @@
         },
         {
           "type": "Rigidbody",
-          "damping": 0.9
+          "gravityScale": 0
         },
         {
           "type": "CircleCollider2d",
-          "radius": 40
+          "radius": 30
         }
       ]
     },
@@ -152,7 +154,7 @@
       "components": [
         {
           "type": "Enemy",
-          "speed": 300,
+          "speed": 0,
           "hp": 3,
           "fireTime": 0.5
         },
@@ -163,11 +165,11 @@
         },
         {
           "type": "Rigidbody",
-          "damping": 0.9
+          "gravityScale": 0
         },
         {
           "type": "CircleCollider2d",
-          "radius": 40
+          "radius": 30
         }
       ]
     }

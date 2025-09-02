@@ -9,7 +9,6 @@ FACTORY_REGISTER(Enemy);
 
 void Enemy::Start()
 {
-	whermst::EventManager::Instance().AddObserver("PlayerDead", *this);
 	_rigidBody = owner->GetComponent<whermst::Rigidbody>();
 	fireTimer = fireTime;
 }
@@ -55,8 +54,6 @@ void Enemy::Update(float dt)
 void Enemy::OnCollision(whermst::Actor* other)
 {
 	if (whermst::tolower(other->tag) != whermst::tolower(owner->tag)) {
-		owner->RemoveComponent(owner->GetComponent<whermst::SpriteRenderer>());
-		auto spriteRenderer = std::make_unique<whermst::SpriteRenderer>();
 		if (hitPoints > 0) {
 			whermst::GetEngine().GetAudio().PlaySound("enemyHit");
 			if (other->name == "Player") {
@@ -68,23 +65,24 @@ void Enemy::OnCollision(whermst::Actor* other)
 		}
 
 		
-		if (hitPoints == 2) {
-			spriteRenderer->textureName = "enemy-2life.png";
+		/*if (hitPoints == 2) {
+			owner->GetComponent<whermst::SpriteRenderer>().textureName = "enemy-2life.png";
 			fireTime = 2.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 50.0f;
-			owner->AddComponent(std::move(spriteRenderer));
+			
 		}
 		else if (hitPoints == 1) {
-			spriteRenderer->textureName = "enemy-1life.png";
+			owner->GetComponent<whermst::SpriteRenderer>().textureName = "enemy-1life.png";
 			fireTime = 4.0f;
 			speed = 1.0f + whermst::random::getReal(1.0f, 2.0f) * 10.0f;
-			owner->AddComponent(std::move(spriteRenderer));
-		}
+			
+		}*/
 
 
 		if(hitPoints == 0){
 		whermst::GetEngine().GetAudio().PlaySound("Explode");
 		owner -> destroyed = true;
+		
 		whermst::EventManager::Instance().Notify(whermst::Event{ "addPoints", 100 });
 		for (int i = 0; i < 100; i++) {
 			whermst::Particle particle;
@@ -117,9 +115,4 @@ void Enemy::Read(const whermst::json::value_t& value)
 	JSON_READ(value, fireTime);
 }
 
-void Enemy::OnNotify(const whermst::Event& event)
-{
-	if(whermst::equalsIgnoreCase(event.id, "PlayerDead")) {
-		owner->destroyed = true;
-	}
-}
+

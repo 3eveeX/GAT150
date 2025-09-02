@@ -27,7 +27,10 @@ namespace whermst {
 
 		//check for collisions
 		for (auto& actorA : _actors) {
+
+
 			for (auto& actorB : _actors) {
+			 continue;
 				if (actorA == actorB || (actorA->destroyed || actorB->destroyed)) continue;
 
 				auto colliderA = actorA->GetComponent<ColliderComponent>();

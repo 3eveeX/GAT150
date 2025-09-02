@@ -27,7 +27,7 @@ void whermst::EventManager::Notify(const Event& event)
 	if (it != _observers.end()) {
 		auto& observers = it->second; // Create a copy of the observer list
 		for (auto& observer : observers) {
-			observer->OnNotify(event);
+				observer->OnNotify(event);
 		}
 	}
 	else{

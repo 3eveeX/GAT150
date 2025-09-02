@@ -10,6 +10,8 @@
 #include "Game/Player.h"
 #include "Game/SpaceGame.h"
 
+#include "Platformer/PlatformerGame.h"
+
 
 
 
@@ -18,7 +20,7 @@ int main(int argc, char* argv[]) {
 
 
 	// set the current directory to the Assets folder
-    whermst::file::SetCurrentDirectory("Assets");
+    whermst::file::SetCurrentDirectory("Assets/Platformer");
 	whermst::Factory::Instance().Register<whermst::SpriteRenderer>("SpriteRenderer");
     
 	auto spriteRenderer = whermst::Factory::Instance().Create<whermst::SpriteRenderer>("SpriteRenderer");
@@ -35,7 +37,7 @@ int main(int argc, char* argv[]) {
 	whermst::GetEngine().Initialize();
 
     //initialize game
-	std::unique_ptr<SpaceGame> game = std::make_unique<SpaceGame>();
+	std::unique_ptr<PlatformerGame> game = std::make_unique<PlatformerGame>();
 	game->Initialize();
 
    //initialize font

@@ -28,16 +28,14 @@ void Player::Update(float dt)
     if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_W)) thrust = 1; 
     if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_S)) thrust = -1;
 
-	owner->transform.rotation += (rotate * rotateRate) * dt;
+	_rigidBody->ApplyTorque(rotate * rotateRate);
 
     whermst::vec2 direction{ 1, 0 };
 	whermst::vec2 force = direction.rotate(whermst::math::degToRad(owner->transform.rotation)) * thrust * speed;
 
 	 //velocity += force * dt;
-	auto* rb = owner->GetComponent<whermst::Rigidbody>();
-	if (rb) {
-		rb->velocity += force * dt;
-	}
+		_rigidBody->ApplyForce(force);
+	
    
      owner->transform.position.x = whermst::math::wrap(owner->transform.position.x, 0.0f, (float)whermst::GetEngine().GetRenderer().GetWidth());
      owner->transform.position.y = whermst::math::wrap(owner->transform.position.y, 0.0f, (float)whermst::GetEngine().GetRenderer().GetHeight());
@@ -56,6 +54,11 @@ void Player::Update(float dt)
          owner->_scene->AddActor(std::move(projectile), true);
      }
     }
+
+void Player::Start()
+{
+	_rigidBody = owner->GetComponent<whermst::Rigidbody>();
+}
 
 void Player::OnCollision(whermst::Actor* other)
 {

@@ -1,0 +1,158 @@
+{
+  "actors": [
+    {
+      "persistent": true,
+      "transform": {
+        "position": [
+          960,
+          768
+        ],
+        "rotation": 0,
+        "scale": 6
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "active": true,
+          "textureName": "Textures/sky.png"
+        }
+      ]
+    },
+    {
+      "persistent": true,
+      "transform": {
+        "position": [
+          460,
+          640
+        ],
+        "rotation": 0,
+        "scale": 0.2
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "Textures/tree01.png"
+        }
+      ]
+    },
+    {
+      "tag": "ground",
+      "persistent": true,
+      "transform": {
+        "position": [
+          640,
+          900
+        ],
+        "rotation": 0,
+        "scale": 0.2
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "Textures/platform.png"
+        },
+        {
+          "type": "RigidBody",
+          "isDynamic": false,
+          "scale": [ 2, 0.8 ]
+        }
+      ]
+    },
+    {
+      "tag": "ground",
+      "persistent": true,
+      "transform": {
+        "position": [
+          290,
+          680
+        ],
+        "rotation": 90,
+        "scale": 0.2
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "Textures/platform.png"
+        },
+        {
+          "type": "RigidBody",
+          "isDynamic": false,
+          "scale": [ 2, 0.8 ]
+        }
+      ]
+    },
+    {
+      "tag": "crate",
+      "persistent": true,
+      "transform": {
+        "position": [
+          650,
+          700
+        ],
+        "rotation": 0,
+        "scale": 1
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "Textures/crate02.png"
+        },
+        {
+          "type": "RigidBody",
+          "restitution": 4,
+          "shape": "Square"
+        }
+      ]
+    },
+    {
+      "tag": "crate",
+      "persistent": true,
+      "transform": {
+        "position": [
+          650,
+          710
+        ],
+        "rotation": 0,
+        "scale": 1
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer",
+          "textureName": "Textures/crate02.png"
+        },
+        {
+          "type": "RigidBody",
+          "restitution": 2,
+          "shape": "Square",
+          "constrainingAngle": true
+        }
+      ]
+    },
+    {
+      "name": "bat",
+      "tag": "enemy",
+      "transform": {
+        "position": [
+          740,
+          500
+        ],
+        "rotation": 0,
+        "scale": 3
+      },
+      "components": [
+        {
+          "type": "SpriteRenderer"
+        },
+        {
+          "type": "Animator",
+          "animations": [
+            {
+              "name": "idle",
+              "textureAnimation": "animations/bat_idle.json"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

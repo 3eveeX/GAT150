@@ -1,0 +1,36 @@
+{
+  "prototypes": [
+    {
+      "name": "PlatformPlayer",
+      "tag": "player",
+      "transform": {
+        "position": [
+          960,
+          768
+        ],
+        "rotation": 0,
+        "scale": 0.5
+      },
+      "components": [
+        {
+          "type": "PlayerController",
+          "speed": 10,
+          "maxSpeed": 30,
+          "fireTime": 0.5,
+          "jump": 10
+        },
+        {
+          "type": "SpriteRenderer",
+          "active": true,
+          "textureName": "textures/box.png"
+        },
+        {
+          "type": "Rigidbody",
+          "constrainAngle": true,
+          "shape": "Capsule"
+        }
+      ]
+    }
+
+    ]
+}

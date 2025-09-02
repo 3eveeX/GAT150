@@ -23,6 +23,7 @@ namespace whermst {
 		void DrawPoint(float x1, float y1);
 		void DrawTexture(Texture& texture, float x, float y);	
 		void DrawTexture(Texture& texture, float x, float y, float angle, float scale = 1);	
+		void DrawTexture(Texture& texture, const rect& sourceRect, float x, float y, float angle = 0, float scale = 1);
 
 		void Clear();
 		void Present();

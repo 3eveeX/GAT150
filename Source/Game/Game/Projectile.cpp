@@ -6,9 +6,14 @@
 
 FACTORY_REGISTER(Projectile);
 
+void Projectile::Start()
+{
+	_rigidBody = owner->GetComponent<whermst::Rigidbody>();
+}
+
 void Projectile::Update(float dt)
 {
-	
+	_rigidBody->setVelocity(whermst::vec2{ 1, 0 }.rotate(whermst::math::degToRad(owner->transform.rotation)) * speed);
 	owner->transform.position.x = whermst::math::wrap(owner->transform.position.x, 0.0f, (float)whermst::GetEngine().GetRenderer().GetWidth());
 	owner->transform.position.y = whermst::math::wrap(owner->transform.position.y, 0.0f, (float)whermst::GetEngine().GetRenderer().GetHeight());
 

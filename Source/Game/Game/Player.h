@@ -16,9 +16,12 @@ public:
 	float fireTime;
 	float fireTimer;
 
-
+	void Start() override;
 
 	// Inherited via Actor
 	void OnCollision(class whermst::Actor* other);
 	void Read(const whermst::json::value_t& value) override;
+
+    private:  
+        whermst::Rigidbody* _rigidBody; // Change from std::unique_ptr to a raw pointer
 };

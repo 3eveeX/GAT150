@@ -9,7 +9,9 @@ namespace whermst {
 
 		void SpriteRenderer::Start()
 	{
-		_texture = Resources().Get<Texture>(textureName, GetEngine().GetRenderer());
+		if (!_texture && !textureName.empty()) {
+			_texture = Resources().Get<Texture>(textureName, GetEngine().GetRenderer());
+		}
 	}
 	void SpriteRenderer::Update(float dt)
 	{
@@ -18,12 +20,22 @@ namespace whermst {
 
 	void SpriteRenderer::Draw(Renderer& renderer)
 	{
-			if (_texture) {
+		if (_texture) {
+			if (textureRect.w > 0 && textureRect.h > 0) {
 				renderer.DrawTexture(*_texture,
+					textureRect,
 					owner->transform.position.x,
 					owner->transform.position.y,
 					owner->transform.rotation,
 					owner->transform.scale);
+			} 
+			else{
+			renderer.DrawTexture(*_texture,
+				owner->transform.position.x,
+				owner->transform.position.y,
+				owner->transform.rotation,
+				owner->transform.scale);
+		}
 			}
 	}
 	void SpriteRenderer::Read(const json::value_t& value)
