@@ -10,6 +10,7 @@
 #include "Components/Rigidbody.h"
 #include "Components/CircleCollider2d.h"
 #include "Components/Animator.h"
+#include "Components/TilemapRenderer.h"
 
 //audio
 #include "Audio/AudioSystem.h"
@@ -26,3 +27,4 @@
 #include "Renderer/Mesh.h"
 #include "Renderer/ParticleSystem.h"
 #include "Renderer/TextureAnimation.h"
+#include "Renderer/Tilemap.h"

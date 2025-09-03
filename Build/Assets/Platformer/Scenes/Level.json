@@ -22,62 +22,17 @@
       "persistent": true,
       "transform": {
         "position": [
-          460,
-          640
+          0,
+          0
         ],
         "rotation": 0,
-        "scale": 0.2
+        "scale": 4
       },
       "components": [
         {
-          "type": "SpriteRenderer",
-          "textureName": "Textures/tree01.png"
-        }
-      ]
-    },
-    {
-      "tag": "ground",
-      "persistent": true,
-      "transform": {
-        "position": [
-          640,
-          900
-        ],
-        "rotation": 0,
-        "scale": 0.2
-      },
-      "components": [
-        {
-          "type": "SpriteRenderer",
-          "textureName": "Textures/platform.png"
-        },
-        {
-          "type": "RigidBody",
-          "isDynamic": false,
-          "scale": [ 2, 0.8 ]
-        }
-      ]
-    },
-    {
-      "tag": "ground",
-      "persistent": true,
-      "transform": {
-        "position": [
-          290,
-          680
-        ],
-        "rotation": 90,
-        "scale": 0.2
-      },
-      "components": [
-        {
-          "type": "SpriteRenderer",
-          "textureName": "Textures/platform.png"
-        },
-        {
-          "type": "RigidBody",
-          "isDynamic": false,
-          "scale": [ 2, 0.8 ]
+          "type": "TilemapRenderer",
+          "active": true,
+          "tilemapName": "Tilemaps/world.json"
         }
       ]
     },
@@ -99,7 +54,7 @@
         },
         {
           "type": "RigidBody",
-          "restitution": 4,
+          "restitution": 0.9,
           "shape": "Square"
         }
       ]
@@ -122,8 +77,13 @@
         },
         {
           "type": "RigidBody",
-          "restitution": 2,
+          "restitution": 0.9,
           "shape": "Square",
+          "linearDamping": 0.5,
+          "angularDamping": 0.5,
+          "gravityScale": 0.5,
+          "isDynamic": true,
+          "friction": 0.5,
           "constrainingAngle": true
         }
       ]

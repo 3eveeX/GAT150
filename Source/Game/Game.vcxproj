@@ -217,6 +217,7 @@
   <ItemGroup>
     <None Include="..\..\Build\Assets\Platformer\Scenes\Level.json" />
     <None Include="..\..\Build\Assets\Platformer\Scenes\Prototypes.json" />
+    <None Include="..\..\Build\Assets\Platformer\Tilemaps\world.json" />
     <None Include="..\..\Build\Assets\scene.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

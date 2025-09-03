@@ -28,4 +28,8 @@ namespace whermst::json
 	bool Read(const value_t& value, const std::string& name, vec2& data, bool required = true);
 					
 	bool Read(const value_t& value, const std::string& name, vec3& data, bool required = true);
+
+	bool Read(const value_t& value, const std::string& name, std::vector<int>& data, bool required = true);
+
+
 }

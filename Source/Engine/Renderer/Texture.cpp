@@ -36,10 +36,12 @@ namespace whermst
     vec2 Texture::GetSize()  
     {  
         float width, height;
-       
-        SDL_GetTextureSize(static_cast<SDL_Texture*>(_texture), &width, &height);
+        
 
+            SDL_GetTextureSize(static_cast<SDL_Texture*>(_texture), &width, &height);
+        
          
         return vec2(width, height);  
     }  
 }
+
