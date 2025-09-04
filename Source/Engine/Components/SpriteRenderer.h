@@ -11,6 +11,7 @@ namespace whermst
 		std::string textureName; 
 		rect textureRect;
 		res_t<Texture> _texture;
+		bool flipH{ false };
 
 	public:
 		CLASS_PROTOTYPE(SpriteRenderer)

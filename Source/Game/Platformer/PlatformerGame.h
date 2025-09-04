@@ -35,7 +35,7 @@ public:
 	void OnNotify(const whermst::Event& event) override;
 
 	void SpawnPlayer();
-	void SpawnEnemy();
+	void SpawnCrate();
 
 private:
 	GameState _gameState = GameState::Initialize;
@@ -43,6 +43,7 @@ private:
 	float _stateTimer{ 0 };
 	float _bgmTimer{ 0 };
 	std::string _playerName = "";
+	int _score{ 0 };
 
 	std::unique_ptr<whermst::Text> _titleText;
 	std::unique_ptr<whermst::Text> _scoreText;

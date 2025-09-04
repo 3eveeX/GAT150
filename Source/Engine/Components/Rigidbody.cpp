@@ -30,6 +30,7 @@ namespace whermst {
 	{
 		owner->transform.position = _body->GetPosition();
 		owner->transform.rotation = math::radToDeg(_body->GetRotation());
+		velocity = _body->GetVelocity();
 		//owner->transform.position += velocity * dt;
 		//velocity *= (1.0f - damping * dt);
 	}

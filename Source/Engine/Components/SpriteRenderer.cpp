@@ -27,22 +27,25 @@ namespace whermst {
 					owner->transform.position.x,
 					owner->transform.position.y,
 					owner->transform.rotation,
-					owner->transform.scale);
-			} 
-			else{
-			renderer.DrawTexture(*_texture,
-				owner->transform.position.x,
-				owner->transform.position.y,
-				owner->transform.rotation,
-				owner->transform.scale);
-		}
+					owner->transform.scale,
+					flipH);
 			}
+			else {
+				renderer.DrawTexture(*_texture,
+					owner->transform.position.x,
+					owner->transform.position.y,
+					owner->transform.rotation,
+					owner->transform.scale,
+					flipH);
+			}
+		}
 	}
 	void SpriteRenderer::Read(const json::value_t& value)
 	{
 		Object::Read(value);
 
 		JSON_READ(value, textureName);
+		JSON_READ(value, flipH);
 	}
 	/*void SpriteRenderer::UpdateTexture(const std::string& newTextureName)
 	{

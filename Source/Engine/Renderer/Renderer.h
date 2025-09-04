@@ -21,9 +21,9 @@ namespace whermst {
 		void SetColourf(float r, float g, float b, float a = 1.0f);
 		void DrawLine(float x1, float y1, float x2, float y2);
 		void DrawPoint(float x1, float y1);
-		void DrawTexture(Texture& texture, float x, float y);	
-		void DrawTexture(Texture& texture, float x, float y, float angle, float scale = 1);	
-		void DrawTexture(Texture& texture, const rect& sourceRect, float x, float y, float angle = 0, float scale = 1);
+		void DrawTexture(Texture& texture, float x, float y);
+		void DrawTexture(Texture& texture, float x, float y, float angle, float scale = 1, bool flipH = false);
+		void DrawTexture(Texture& texture, const rect& sourceRect, float x, float y, float angle = 0, float scale = 1, bool flipH = false);
 
 		void Clear();
 		void Present();

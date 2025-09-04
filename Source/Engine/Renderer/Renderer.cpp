@@ -83,7 +83,7 @@ namespace whermst {
 		SDL_RenderTexture(_renderer, texture._texture, NULL, &destRect);
     }
 
-    void Renderer::DrawTexture(Texture& texture, float x, float y, float angle, float scale)
+    void Renderer::DrawTexture(Texture& texture, float x, float y, float angle, float scale, bool flipH)
     {
         vec2 size = texture.GetSize();
         SDL_FRect destRect;
@@ -91,10 +91,10 @@ namespace whermst {
         destRect.h = size.y * scale;
         destRect.x = x - (destRect.w * 0.5f);
         destRect.y = y - (destRect.h * 0.5f);
-		SDL_RenderTextureRotated(_renderer, texture._texture, NULL, &destRect, angle, NULL, SDL_FLIP_NONE);
+		SDL_RenderTextureRotated(_renderer, texture._texture, NULL, &destRect, angle, NULL, (flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE));
     }
 
-    void Renderer::DrawTexture(Texture& texture, const rect& sourceRect, float x, float y, float angle, float scale)
+    void Renderer::DrawTexture(Texture& texture, const rect& sourceRect, float x, float y, float angle, float scale, bool flipH)
     {
         SDL_FRect srcRect;
         srcRect.x = sourceRect.x;
@@ -108,7 +108,7 @@ namespace whermst {
         destRect.x = x - (destRect.w * 0.5f);
         destRect.y = y - (destRect.h * 0.5f);
 
-        SDL_RenderTextureRotated(_renderer, texture._texture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+        SDL_RenderTextureRotated(_renderer, texture._texture, &srcRect, &destRect, angle, NULL, (flipH ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE));
     }
 
     void Renderer::Clear()

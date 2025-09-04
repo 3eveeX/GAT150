@@ -39,6 +39,9 @@ namespace whermst {
 								Logger::Warning("Could not read texture '{}' for tilemap layer", value);
 							}
 						}
+						else if (equalsIgnoreCase(name, "Collision")) {
+							JSON_READ_NAME(propertyValue,"value", layer.hasCollision);
+						}
 					}
 				}
 

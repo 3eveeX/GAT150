@@ -13,11 +13,18 @@ void PlayerController::Update(float dt)
 		dir += 1.0f;
 	}
 	if (dir != 0) {
-		_rigidBody->ApplyForce(whermst::vec2{ 1, 0 }* dir * 1000);
+		_rigidBody->ApplyForce(whermst::vec2{ 1, 0 }* dir * speed);
 	}
 
  if(whermst::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_SPACE) || whermst::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_W) || whermst::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_UP)) {
 		_rigidBody->ApplyForce(whermst::vec2{ 0, -1 } * 1000 * jump);
+ }
+
+ auto spriteRenderer = owner->GetComponent<whermst::SpriteRenderer>();
+ if (spriteRenderer) {
+	 if (_rigidBody->velocity.x != 0) {
+		 spriteRenderer->flipH = (_rigidBody->velocity.x < 0);
+	 }
  }
 }  
 
@@ -28,7 +35,7 @@ void PlayerController::Start()
 
 void PlayerController::OnCollision(class whermst::Actor* other)
 {
-
+	std::cout << "Collided with " << other->name << std::endl;
 }
 
 void PlayerController::Read(const whermst::json::value_t& value)  

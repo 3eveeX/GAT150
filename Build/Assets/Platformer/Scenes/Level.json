@@ -37,58 +37,6 @@
       ]
     },
     {
-      "tag": "crate",
-      "persistent": true,
-      "transform": {
-        "position": [
-          650,
-          700
-        ],
-        "rotation": 0,
-        "scale": 1
-      },
-      "components": [
-        {
-          "type": "SpriteRenderer",
-          "textureName": "Textures/crate02.png"
-        },
-        {
-          "type": "RigidBody",
-          "restitution": 0.9,
-          "shape": "Square"
-        }
-      ]
-    },
-    {
-      "tag": "crate",
-      "persistent": true,
-      "transform": {
-        "position": [
-          650,
-          710
-        ],
-        "rotation": 0,
-        "scale": 1
-      },
-      "components": [
-        {
-          "type": "SpriteRenderer",
-          "textureName": "Textures/crate02.png"
-        },
-        {
-          "type": "RigidBody",
-          "restitution": 0.9,
-          "shape": "Square",
-          "linearDamping": 0.5,
-          "angularDamping": 0.5,
-          "gravityScale": 0.5,
-          "isDynamic": true,
-          "friction": 0.5,
-          "constrainingAngle": true
-        }
-      ]
-    },
-    {
       "name": "bat",
       "tag": "enemy",
       "transform": {

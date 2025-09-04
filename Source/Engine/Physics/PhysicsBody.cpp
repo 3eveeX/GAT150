@@ -83,4 +83,8 @@ namespace whermst {
 	{
 		b2Body_SetLinearVelocity(_bodyId, to_b2(Physics::PixelToWorld(velocity)));
 	}
+	vec2 PhysicsBody::GetVelocity()
+	{
+		return Physics::WorldToPixel(to_vec2(b2Body_GetLinearVelocity(_bodyId)));
+	}
 }

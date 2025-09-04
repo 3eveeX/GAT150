@@ -26,6 +26,10 @@
 
 
 			static float s_pixelsPerMeter;
+
+		private:
+			void ProcessCollisionEvents();
+
 		private:
 			friend class PhysicsBody;
 			b2WorldId _worldId;

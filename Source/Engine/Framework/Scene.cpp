@@ -26,6 +26,7 @@ namespace whermst {
 		}*/
 
 		//check for collisions
+		/*
 		for (auto& actorA : _actors) {
 
 
@@ -44,6 +45,7 @@ namespace whermst {
 				}
 			}
 		}
+		*/
 	}
 	
 	/// <summary>

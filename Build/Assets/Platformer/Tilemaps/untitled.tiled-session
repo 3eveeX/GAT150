@@ -10,7 +10,7 @@
     "fileStates": {
         "tilemap.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1,
+            "scaleInDock": 1.5,
             "scaleInEditor": 2
         }
     },
@@ -22,6 +22,7 @@
     "openFiles": [
     ],
     "project": "untitled.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
         "tilemap.tsx"
     ],
