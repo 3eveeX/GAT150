@@ -19,11 +19,11 @@ void PlatformerGame::Update(float dt) {
 	switch (_gameState)
 	{
 	case PlatformerGame::GameState::Initialize:
-		_gameState = PlatformerGame::GameState::StartRound;
+		_gameState = PlatformerGame::GameState::Title;
 		break;
 	case PlatformerGame::GameState::Title:
 
-		if(whermst::GetEngine().GetInput().GetKeyDown(SDLK_SPACE)) {
+		if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_SPACE)) {
 			_gameState = GameState::StartGame;
 		}
 
@@ -33,7 +33,7 @@ void PlatformerGame::Update(float dt) {
 		_gameState = GameState::StartRound;
 		break;
 	case PlatformerGame::GameState::StartRound:
-		SpawnPlayer();					   
+		SpawnPlayer();
 		_gameState = GameState::Game;
 		break;
 	case PlatformerGame::GameState::Game:
@@ -45,7 +45,7 @@ void PlatformerGame::Update(float dt) {
 		}
 		auto crate = _scene->GetActorByName("crate");
 		auto player = _scene->GetActorByName("PlatformPlayer");
-		if (crate && (crate->transform.position.y > whermst::GetEngine().GetRenderer().GetHeight() || (crate->transform.position.x < 0) || crate -> transform.position.x > whermst::GetEngine().GetRenderer().GetWidth())) {
+		if (crate && (crate->transform.position.y > whermst::GetEngine().GetRenderer().GetHeight() || (crate->transform.position.x < 0) || crate->transform.position.x > whermst::GetEngine().GetRenderer().GetWidth())) {
 			crate->destroyed = true;
 			_score += 1;
 		}
@@ -57,13 +57,19 @@ void PlatformerGame::Update(float dt) {
 			_gameState = GameState::PlayerDead;
 		}
 	}
-		break;
+	break;
 	case PlatformerGame::GameState::PlayerDead:
 		_score = 0;
-		_gameState = GameState::GameOver;
-
+		_stateTimer += dt;
+		if (_stateTimer >= 3.0f) {
+			_gameState = GameState::GameOver;
+		}
 		break;
 	case PlatformerGame::GameState::GameOver:
+		if (whermst::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_RETURN)) {
+			_stateTimer = 0;
+			_gameState = GameState::Title;
+		}
 		break;
 	default:
 		break;
@@ -92,6 +98,16 @@ void PlatformerGame::Draw(class whermst::Renderer& renderer) {
 			_titleText->Create(renderer, "You Lose", whermst::vec3{ 1, 1, 1 });
 		}
 		_titleText->Draw(renderer, 300, 400);
+	}
+	if (_gameState == GameState::Title) {
+		_titleText->Create(renderer, "Platformer Game", whermst::vec3{ 1, 1, 1 });
+		_titleText->Draw(renderer, 150, 20);
+		_scoreText->Create(renderer, "press [[SPACE]] to start", whermst::vec3{ 1, 1, 1 });
+		_scoreText->Draw(renderer, 200, 330);
+	}
+	if (_gameState == GameState::GameOver) {
+		_scoreText->Create(renderer, "press [[ENTER]] to go back to title screen", whermst::vec3{ 1, 1, 1 });
+		_scoreText->Draw(renderer, 300, 600);
 	}
 }
 
