@@ -54,7 +54,7 @@ namespace whermst {
 
 		// calculate tiles per row from texture size
 			vec2 textureSize = layer.texture->GetSize();
-			int tilesPerRow = (int)textureSize.x / layer.width;
+			int tilesPerRow = (int)(textureSize.x / tilewidth);
 
 		int column = (tileId - 1) % tilesPerRow; // Tiled uses 1-based indexing
 		int row = (tileId - 1) / tilesPerRow;

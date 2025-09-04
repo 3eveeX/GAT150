@@ -61,6 +61,7 @@ namespace whermst {
 				if (tileId == 0) continue;
 
 				rect source = _tilemap->GetTextureRect(layer, tileId);
+				Logger::Info("Drawing tile id {} at {},{}", tileId, source.x, source.y);
 				vec2 position = owner->transform.position + _tilemap->GetPosition(layer, i) * owner->transform.scale;
 
 				renderer.DrawTexture(*layer.texture, source, position.x, position.y, owner->transform.rotation, owner->transform.scale);
